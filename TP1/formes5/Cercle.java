@@ -24,7 +24,7 @@ public class Cercle
         this.aDiametre=  30;
         this.aXPosition= 20;
         this.aYPosition= 60;
-        this.aCouleur=   "blue";
+        this.aCouleur=   "red";
         this.aEstVisible= false;
     } // Cercle()
 
@@ -77,7 +77,13 @@ public class Cercle
     {
         this.depVertical( 20 );
     } // vaBas()
-
+    /**
+     * * Triple la taille du cercle
+     */
+    public void tripleTaille()
+    {
+        changeTaille(3 * this.aDiametre);
+    }
     /**
      * Deplace le cercle horizontalement de 'pDistance' pixels.
      * @param pDistance nb de pixels dont il faut se deplacer vers la droite
