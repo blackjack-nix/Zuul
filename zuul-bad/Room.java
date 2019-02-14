@@ -19,14 +19,10 @@ public class Room
     }//setExit(....)
     
     public Room getExit(final String pDirection){
-        if (pDirection.equals("nord")) return aSortieHM.get(pDirection);
-        if (pDirection.equals("est")) return aSortieHM.get(pDirection);
-        if (pDirection.equals("sud")) return aSortieHM.get(pDirection);
-        if (pDirection.equals("ouest")) return aSortieHM.get(pDirection);
-        return null;
+        return aSortieHM.get(pDirection);
     }//getExit(.)
     
-    public String getExitsString(){
+    /*public String getExitsString(){
         String sortie = "";
         if (this.aNorthExit != null ) sortie += "nord ";
         if (this.aEastExit != null ) sortie += "est ";
@@ -34,5 +30,5 @@ public class Room
         if (this.aWestExit != null ) sortie += "ouest ";
         
         return sortie;
-    }
+    }*/
 } // Room

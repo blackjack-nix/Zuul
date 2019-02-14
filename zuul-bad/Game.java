@@ -76,7 +76,7 @@ public class Game
     private void printLocationInfo(){
         System.out.println("Vous etes " + aCurrentRoom.getDescription());
         System.out.print("Les sorties : ");
-        System.out.println(aCurrentRoom.getExitsString());
+        //System.out.println(aCurrentRoom.getExitsString());
     }
     private void printWelcome(){
                 System.out.println("Bienvenue dans le jeu d'aventure StarWars !");
