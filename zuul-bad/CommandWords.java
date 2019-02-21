@@ -13,8 +13,7 @@ public class CommandWords
 {
     // tableau constant qui contient tous les mots de commande valides
     private static final String[] sValidCommands = {
-        "go", "quit", "help"
-    };
+        "go", "quit", "help","look","eat"};
 
     /**
      * Constructeur par defaut
@@ -41,4 +40,18 @@ public class CommandWords
         // n'a pas ete trouvee dans le tableau
         return false;
     } // isCommand()
+    
+    
+    /**
+     * Affiche toutes les commandes sur System.out
+     */
+    public String getCommandList(){
+        String vCommands = "";
+        for(String command : sValidCommands){
+            vCommands += command + " ";
+        }
+        return vCommands;
+    }
+    
+    
 } // CommandWords
