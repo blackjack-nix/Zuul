@@ -62,7 +62,8 @@ public class Game
 
     /**
      * 
-     * 
+     * Allow you to go in an other room
+     * @param pCommand
      */
 
     private void goRoom ( final Command pCommand){
@@ -117,7 +118,7 @@ public class Game
 
     /**
      * Fonction to leave the gamemmand to quit the game "quit"
-     * @param Quit Co
+     * @param pCommand command for quit
      */
     private boolean quit (final Command pCommand){
         if ( pCommand.hasSecondWord()) System.out.println("Quit what ?");
@@ -126,7 +127,7 @@ public class Game
 
     /**
      * Differents commands
-     * @param Command Commands available : go + direction , help , quit.
+     * @param pCommand Commands available : go + direction , help , quit.
      */
     private boolean processCommand (final Command pCommand){
         if ( pCommand.isUnknown()){

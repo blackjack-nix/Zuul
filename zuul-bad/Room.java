@@ -24,7 +24,7 @@ public class Room
     }//Room(.)
 
     /**
-     * @param Nothing No parameters required
+     * return a string of the room description
      * @return  Return a String description of the room
      */
     public String getDescription (){
@@ -33,8 +33,8 @@ public class Room
 
     /**
      * change the exit of a room
-     * @param Description A String for the direection you want to go
-     * @param NextRoom Change the room
+     * @param pDirection A String for the direection you want to go
+     * @param pRoom Change the room
      */
     public void setExits (final String pDirection, final Room pRoom){
         aSortieHM.put(pDirection,pRoom);
@@ -43,7 +43,7 @@ public class Room
     /**
      * Return the exit of the room
      * @return Return the room after taking the direction
-     * @param Direction Direction you want to take in the room
+     * @param pDirection Direction you want to take in the room
      */
     public Room getExit(final String pDirection){
         return aSortieHM.get(pDirection);
@@ -55,7 +55,7 @@ public class Room
     public String getExitsString(){
         String vSortie = "";
         Set<String> keys = aSortieHM.keySet();
-        for ( String aSortieHM : keys) vSortie += ' ' + aSortieHM;
+        for ( String aSortieHM : keys) vSortie =+ ' ' + aSortieHM;
         return vSortie;       
     } //getExitsString()
     
