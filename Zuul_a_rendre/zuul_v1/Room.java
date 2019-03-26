@@ -11,18 +11,16 @@ import java.util.Iterator;
 
 public class Room
 {
-    private HashMap <String , Room>  aSortieHM;
+    public HashMap <String , Room>  aSortieHM;
     private String aDescription = "Cette salle est la salle la plus au sud du temple. Elle est gardée par 2 gardes ainsi qu'un garde d'élite.";//description succinte de la salle
-    private String aImageName;
-    
+
     /**
      * Create rooms with a string description
      *  and create a HashMap of the exits for each
      */
-    public Room (final String pDescription , final String pImage){
+    public Room (final String pDescription){
         this.aDescription = pDescription ;
         aSortieHM = new HashMap <String , Room> ();
-        aImageName = pImage;
     }//Room(.)
 
     /**
@@ -52,16 +50,14 @@ public class Room
     }//getExit(.)
 
     /**
-     * Return a string describing the room's exits, for example
-     * "Exits: north west".
+     * @return Return a string description of the room
      */
-    private String getExitString()
-    {
-        StringBuilder vReturnString = new StringBuilder( "Exits:" );
-        for ( String vS : aSortieHM.keySet() )
-            vReturnString.append( " " + vS );
-        return vReturnString.toString();
-    }
+    public String getExitsString(){
+        String vSortie = "";
+        Set<String> keys = aSortieHM.keySet();
+        for ( String aSortieHM : keys) vSortie += ' ' + aSortieHM;
+        return vSortie;       
+    } //getExitsString()
     
     /**
      * Renvoie une description détillée de cette piece sous la forme :
@@ -70,19 +66,6 @@ public class Room
      * @return Une description de la piece avec les sorties
      */
     public String getLongDescription(){
-        return "Vous etes "+this.aDescription+". Sorties : "+this.getExitString();
-    }
-    
-    /**
-     * Return the description of the room (the one that was defined in the
-     * constructor).
-     */
-    public String getShortDescription()
-    {
-        return this.aDescription;
-    }
-    
-    public String getImageName(){
-        return this.aImageName;
+        return "Vous etes "+this.aDescription+". Sorties : "+this.getExitsString();
     }
 } // Room

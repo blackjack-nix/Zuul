@@ -9,7 +9,6 @@ public class Game
      * initate the starting room
      */
     private void createRooms(){
-        
         // ## déclaration des rooms ##
         Room vOutside = new Room("devant l'entrée du temple");
         Room vCouloir = new Room("dans le couloir principal");
@@ -83,10 +82,10 @@ public class Game
             } else {
                 this.aCurrentRoom = vNextRoom;
                 printLocationInfo();
-                if (aCurrentRoom.getImageName() != null) aGui.showImage(currentRoom.get
             }
         }
-    }//goRoom(.)}
+    }//goRoom(.)
+
     /**
      * Print infos about wher you are and the exits available
      */
