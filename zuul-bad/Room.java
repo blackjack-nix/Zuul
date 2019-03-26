@@ -55,7 +55,7 @@ public class Room
      * Return a string describing the room's exits, for example
      * "Exits: north west".
      */
-    private String getExitString()
+    public String getExitString()
     {
         StringBuilder vReturnString = new StringBuilder( "Exits:" );
         for ( String vS : aSortieHM.keySet() )
