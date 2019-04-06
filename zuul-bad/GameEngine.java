@@ -1,11 +1,14 @@
+import java.util.*;
 public class GameEngine {
     
     private Parser aParser;
     private Room aCurrentRoom;
     private UserInterface aGui;
+    private HashMap<Room, String> aRooms;
     
     public GameEngine(){
         aParser = new Parser();
+        aRooms = new HashMap<Room,String>();
         createRooms();
     }
     
@@ -18,58 +21,77 @@ public class GameEngine {
      * Print the welcome tips
      */
     private void printWelcome(){
-        System.out.println("Bienvenue dans le jeu d'aventure StarWars !");
-        System.out.println("Ta formation est bientôt terminé jeune Padawan. Récpuère les objets nécéssaires à la création de ton sabre lasert pour enfin devenir un vrai Jedi et finir ce jeu");
-        System.out.println("Tappe help si tu as besoin d'aide !");
-        System.out.println('\n');
+        aGui.println("Bienvenue dans le jeu d'aventure StarWars !");
+        aGui.println("Ta formation est bientôt terminé jeune Padawan. Récpuère les objets nécéssaires à la création de ton sabre lasert pour enfin devenir un vrai Jedi et finir ce jeu");
+        aGui.println("Tappe help si tu as besoin d'aide !");
+        aGui.println("\n");
         aGui.println(aCurrentRoom.getLongDescription());
         aGui.showImage(aCurrentRoom.getImageName());
     }//printWelcome() 
     
+    
+    
     private void createRooms(){
-        
-        
+        // ## déclaration des items
+        Item vKyber = new Item("Un crysat de Kyber",1);
+        Item vCellule = new Item("Une cellule d'éebergie",2);
+        Item vEmetteur = new Item("Un emetteur",3);
+        Item vLentille = new Item("Une lentille",4);
+        Item vVerre = new Item("Un verre d'eau",5);
         
         // ## déclaration des rooms ##
-        Room vOutside = new Room("devant l'entrée du temple","/Image/entree_gardee.jpg");
-        Room vCouloir = new Room("dans le couloir principal","/Image/couloir.jpg");
-        Room vFontaine = new Room("dans la salle de la fontaine","/Image/fontaine.jpg");
-        Room vCombat = new Room("dans la salle d'entrainement aux arts Jedi","/Image/kanan_jarrus.jpg");
-        Room vHolocrons = new Room("dans la salle des holocrons","/Image/holocrons.jpg.jpg");
-        Room vHall = new Room("dans le hall des Jedi","/Image/hall.jpg");
-        Room vArchive = new Room("dans la salle des archives Jedi","/Image/bibliotheque.jpg");
-        Room vArmurerie = new Room("dans l'armurerie secrète du temple","/Image/hall.jpg");
-        Room vConseil = new Room("dans la salle du conseil Jedi","/Image/conseil_full.jpg");
+        Room vOutside = new Room("devant l'entrée du temple","Image/entree_gardee.jpg",vCellule);
+        Room vCouloir = new Room("dans le couloir principal","Image/couloir.jpg",null);
+        Room vFontaine = new Room("dans la salle de la fontaine","Image/fontaine.jpg",vVerre);
+        Room vCombat = new Room("dans la salle d'entrainement aux arts Jedi","Image/kanan_jarrus.JPG",null);
+        Room vHolocrons = new Room("dans la salle des holocrons","Image/holocrons.jpg",vLentille);
+        Room vHall = new Room("dans le hall des Jedi","Image/hall.jpg",vEmetteur);
+        Room vArchive = new Room("dans la salle des archives Jedi","Image/bibliotheque.jpg",null);
+        Room vArmurerie = new Room("dans l'armurerie secrète du temple","Image/machine.jpg",null);
+        Room vConseil = new Room("dans la salle du conseil Jedi","Image/conseil_full.jpg", vKyber);
 
         // ## déclaration des sorties ##
 
-        vOutside.setExits("north", vCouloir);
+        vOutside.setExits("nord", vCouloir); //entrée gardée
 
-        vCouloir.setExits("north",vHall);
-        vCouloir.setExits("west",vFontaine);
-        vCouloir.setExits("south",vOutside);
-        vCouloir.setExits("east",vCombat);
+        vCouloir.setExits("nord",vHall); //couloir
+        vCouloir.setExits("ouest",vFontaine);
+        vCouloir.setExits("sud",vOutside);
+        vCouloir.setExits("est",vCombat);
 
-        vFontaine.setExits("north",vHolocrons);
-        vFontaine.setExits("east",vCouloir);
+        vFontaine.setExits("nord",vHolocrons);//fontaine
+        vFontaine.setExits("est",vCouloir);
 
-        vCombat.setExits("north",vArchive);
-        vCombat.setExits("west",vCouloir);
+        vCombat.setExits("nord",vArchive);//salle de combat
+        vCombat.setExits("ouest",vCouloir);
     
-        vHolocrons.setExits("south",vFontaine);
+        vHolocrons.setExits("sud",vFontaine);//salle des holocrons
 
-        vHall.setExits("down",vConseil);
-        vHall.setExits("south",vCouloir);
+        vHall.setExits("bas",vConseil);//hall des jedi
+        vHall.setExits("sud",vCouloir);
 
-        vArchive.setExits("south",vCombat);
-        vArchive.setExits("east",vArmurerie);
+        vArchive.setExits("sud",vCombat);//archive
+        //vArchive.setExits("est",vArmurerie);
 
-        //vArmurerie.setExits("west",vArchive); // salle bloquée pour le moment
+        //vArmurerie.setExits("ouest",vArchive); // salle bloquée pour le moment
 
         vConseil.setExits("up",vHall);
-
+        
+        
+        
         // ## initialisation du lieu de départ ##
-        this.aCurrentRoom = vCombat;
+        this.aCurrentRoom = vOutside;
+        
+        // ## HashMap rooms
+        aRooms.put(vOutside,"vOutside");
+        aRooms.put(vCouloir,"vCouloir");
+        aRooms.put(vFontaine,"vFontaine");
+        aRooms.put(vCombat,"vCombate");
+        aRooms.put(vHolocrons,"vHolocrons");
+        aRooms.put(vHall,"vHall");
+        aRooms.put(vArchive,"vArchive");
+        aRooms.put(vArmurerie,"vArmurerie");
+        aRooms.put(vConseil,"vConseil");
     }//creatRoom()
     
     public void interpretCommand(String pCommandLine){
@@ -98,17 +120,17 @@ public class GameEngine {
      * Print help tips (where you are, exits, commands...)
      */
     private void printHelp(){
-        System.out.println("You are " + aCurrentRoom.getDescription() +". May the force be with you");
-        System.out.println("Sorties : " + aCurrentRoom.getExitString());
-        System.out.println('\n');
-        System.out.println("Your command words are :");
-        System.out.println(aParser.showCommands());
+        aGui.println("Vous etes " + aCurrentRoom.getDescription() +". Que la force soit avec vous.");
+        aGui.println("Sorties : " + aCurrentRoom.getExitString());
+        aGui.println("\n");
+        aGui.println("Your command words are :");
+        aGui.println(aParser.showCommands());
     }//printHelp()
     
     private void goRoom ( final Command pCommand){
 
         if (!  pCommand.hasSecondWord()){
-            System.out.println("Go where ?");
+            aGui.println("Go where ?");
             return;
         } //mot pas bon apres le go
         else {
@@ -117,10 +139,10 @@ public class GameEngine {
             vNextRoom = aCurrentRoom.getExit(vDirection);
 
             if (vNextRoom == null){
-                System.out.println("There is no door !");
+                aGui.println("There is no door !");
             } else {
                 this.aCurrentRoom = vNextRoom;
-                System.out.println(aCurrentRoom.getLongDescription());
+                aGui.println(aCurrentRoom.getLongDescription());
                 if (aCurrentRoom.getImageName() != null) {
                     aGui.showImage(aCurrentRoom.getImageName());
                 }
@@ -135,17 +157,17 @@ public class GameEngine {
     }
     
     private void look(){
-        System.out.println(aCurrentRoom.getLongDescription());
+        aGui.println(aCurrentRoom.getLongDescription());
     }
     
     private void eat(){
-        System.out.println("You have eaten now and you are not hungry any more.");   
+        aGui.println("You have eaten now and you are not hungry any more.");   
     }
     
     /**
      * Print infos about wher you are and the exits available
      */
     private void printLocationInfo(){
-        System.out.println(aCurrentRoom.getLongDescription());
+        aGui.println(aCurrentRoom.getLongDescription());
     }//printLocationInfo()
 }

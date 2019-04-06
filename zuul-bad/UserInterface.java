@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.net.URL;
 import java.awt.image.*;
+import java.util.*;
 
 /**
  * This class implements a simple graphical user interface with a text entry
@@ -18,7 +19,17 @@ public class UserInterface implements ActionListener
     private JTextField aEntryField;
     private JTextArea  aLog;
     private JLabel     aImage;
-
+    private JButton    aButtonNorth;
+    private JButton    aButtonSouth;
+    private JButton    aButtonWest;
+    private JButton    aButtonEast;
+    private JButton    aButtonEat;
+    private JButton    aButtonLook;
+    private JButton    aButtonUp;
+    private JButton    aButtonDown;
+    
+    
+    
     /**
      * Construct a UserInterface. As a parameter, a Game Engine
      * (an object processing and executing the game commands) is
@@ -29,6 +40,8 @@ public class UserInterface implements ActionListener
     public UserInterface( final GameEngine pGameEngine )
     {
         this.aEngine = pGameEngine;
+        
+        
         this.createGUI();
     } // UserInterface(.)
 
@@ -87,23 +100,69 @@ public class UserInterface implements ActionListener
         JScrollPane vListScroller = new JScrollPane( this.aLog );
         vListScroller.setPreferredSize( new Dimension(200, 200) );
         vListScroller.setMinimumSize( new Dimension(100,100) );
-
+        
         JPanel vPanel = new JPanel();
         this.aImage = new JLabel();
+        
+        // création des bouttons de déplacement
+        this.aButtonNorth = new JButton("go nord");
+        this.aButtonSouth = new JButton("go sud");
+        this.aButtonWest = new JButton("go ouest");
+        this.aButtonEast = new JButton("go est");
+        
+        //création des boutons d'action
+        this.aButtonEat = new JButton("eat");
+        this.aButtonLook = new JButton("look");
+        
+        //création des boutons étages
+        this.aButtonUp = new JButton("up");
+        this.aButtonDown = new JButton("down");
 
+        //panel princial
         vPanel.setLayout( new BorderLayout() );
         vPanel.add( this.aImage, BorderLayout.NORTH );
         vPanel.add( vListScroller, BorderLayout.CENTER );
         vPanel.add( this.aEntryField, BorderLayout.SOUTH );
-
         this.aMyFrame.getContentPane().add( vPanel, BorderLayout.CENTER );
-
+        
+        
+        //panel gauche
+        JPanel vPanelAction = new JPanel();
+        vPanelAction.add(this.aButtonEat, BorderLayout.EAST);
+        vPanelAction.add(this.aButtonLook, BorderLayout.WEST);
+        this.aMyFrame.getContentPane().add(vPanelAction, BorderLayout.WEST);
+        
+        
+        //panel droite
+        JPanel vPanelGo = new JPanel();
+        this.aMyFrame.getContentPane().add(vPanelGo, BorderLayout.EAST);
+        vPanelGo.setLayout( new BorderLayout());
+        vPanelGo.add(this.aButtonNorth, BorderLayout.NORTH);
+        vPanelGo.add(this.aButtonSouth, BorderLayout.SOUTH);
+        vPanelGo.add(this.aButtonEast, BorderLayout.EAST);
+        vPanelGo.add(this.aButtonWest, BorderLayout.WEST);
+        
+        
+        //panel haut
+        JPanel vPanelH = new JPanel();
+        vPanelH.add(this.aButtonUp, BorderLayout.NORTH);
+        vPanelH.add(this.aButtonDown, BorderLayout.SOUTH);
+        
+        
+        
+        
         // add some event listeners to some components
         this.aMyFrame.addWindowListener( new WindowAdapter() {
             public void windowClosing(WindowEvent e) { System.exit(0); }
         } );
 
-        this.aEntryField.addActionListener( this );
+        this.aEntryField.addActionListener(this);
+        this.aButtonNorth.addActionListener(this);
+        this.aButtonSouth.addActionListener(this);
+        this.aButtonWest.addActionListener(this);
+        this.aButtonEast.addActionListener(this);
+        this.aButtonEat.addActionListener(this);
+        this.aButtonLook.addActionListener(this);
 
         this.aMyFrame.pack();
         this.aMyFrame.setVisible( true );
@@ -117,9 +176,29 @@ public class UserInterface implements ActionListener
     {
         // no need to check the type of action at the moment.
         // there is only one possible action: text entry
-        this.processCommand();
-    } // actionPerformed(.)
-
+        Object vSource = pE.getSource();
+        if (vSource == aEntryField){
+            this.processCommand();
+        } // actionPerformed(.)
+        if (vSource == aButtonNorth) {
+            aEngine.interpretCommand("go nord");
+        }
+        if (vSource == aButtonSouth) {
+            aEngine.interpretCommand("go sud");
+        }
+        if (vSource == aButtonWest) {
+            aEngine.interpretCommand("go ouest");
+        }
+        if (vSource == aButtonEast) {
+            aEngine.interpretCommand("go est");
+        }
+        if (vSource == aButtonEat) {
+            aEngine.interpretCommand("eat");
+        }
+        if (vSource == aButtonLook) {
+            aEngine.interpretCommand("look");
+        }
+    }
     /**
      * A command has been entered. Read the command and do whatever is 
      * necessary to process it.

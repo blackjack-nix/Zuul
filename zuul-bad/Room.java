@@ -12,17 +12,21 @@ import java.util.Iterator;
 public class Room
 {
     private HashMap <String , Room>  aSortieHM;
-    private String aDescription = "Cette salle est la salle la plus au sud du temple. Elle est gardée par 2 gardes ainsi qu'un garde d'élite.";//description succinte de la salle
+    private HashMap <Item , Room> aItemHM;
+    private String aDescription;
     private String aImageName;
+    private Item aItem; 
     
     /**
      * Create rooms with a string description
      *  and create a HashMap of the exits for each
      */
-    public Room (final String pDescription , final String pImage){
+    public Room (final String pDescription , final String pImage , final Item pItem){
         this.aDescription = pDescription ;
         aSortieHM = new HashMap <String , Room> ();
+        aItemHM = new HashMap <Item , Room> ();
         aImageName = pImage;
+        aItem = pItem;
     }//Room(.)
 
     /**
@@ -41,8 +45,12 @@ public class Room
     public void setExits (final String pDirection, final Room pRoom){
         aSortieHM.put(pDirection,pRoom);
     }//setExit(....)
-
-    /**
+    
+    public void setItem (final Item pItem , final Room pRoom){
+        aItemHM.put(pItem,pRoom);        
+    }//setItem
+    
+      /**
      * Return the exit of the room
      * @return Return the room after taking the direction
      * @param pDirection Direction you want to take in the room
@@ -57,7 +65,7 @@ public class Room
      */
     public String getExitString()
     {
-        StringBuilder vReturnString = new StringBuilder( "Exits:" );
+        StringBuilder vReturnString = new StringBuilder( "" );
         for ( String vS : aSortieHM.keySet() )
             vReturnString.append( " " + vS );
         return vReturnString.toString();
@@ -70,7 +78,11 @@ public class Room
      * @return Une description de la piece avec les sorties
      */
     public String getLongDescription(){
-        return "Vous etes "+this.aDescription+". Sorties : "+this.getExitString();
+        String vGetLongDescription = "\n"+"Vous etes "+this.aDescription+". Sorties : "+this.getExitString() + "\n" + "Objet disponible dans cette salle : ";
+        if (this.aItem != null) vGetLongDescription += this.aItem.getDescription();
+        else vGetLongDescription += "Il n'y en a pas";
+        return vGetLongDescription;
+        
     }
     
     /**
