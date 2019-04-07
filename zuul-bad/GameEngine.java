@@ -6,9 +6,11 @@ public class GameEngine {
     private UserInterface aGui;
     private HashMap<Room, String> aRooms;
     
+    
     public GameEngine(){
         aParser = new Parser();
         aRooms = new HashMap<Room,String>();
+        
         createRooms();
     }
     
@@ -40,16 +42,24 @@ public class GameEngine {
         Item vVerre = new Item("Un verre d'eau",5);
         
         // ## déclaration des rooms ##
-        Room vOutside = new Room("devant l'entrée du temple","Image/entree_gardee.jpg",vCellule);
-        Room vCouloir = new Room("dans le couloir principal","Image/couloir.jpg",null);
-        Room vFontaine = new Room("dans la salle de la fontaine","Image/fontaine.jpg",vVerre);
-        Room vCombat = new Room("dans la salle d'entrainement aux arts Jedi","Image/kanan_jarrus.JPG",null);
-        Room vHolocrons = new Room("dans la salle des holocrons","Image/holocrons.jpg",vLentille);
-        Room vHall = new Room("dans le hall des Jedi","Image/hall.jpg",vEmetteur);
-        Room vArchive = new Room("dans la salle des archives Jedi","Image/bibliotheque.jpg",null);
-        Room vArmurerie = new Room("dans l'armurerie secrète du temple","Image/machine.jpg",null);
-        Room vConseil = new Room("dans la salle du conseil Jedi","Image/conseil_full.jpg", vKyber);
-
+        Room vOutside = new Room("devant l'entrée du temple","Image/entree_gardee.jpg");
+        Room vCouloir = new Room("dans le couloir principal","Image/couloir.jpg");
+        Room vFontaine = new Room("dans la salle de la fontaine","Image/fontaine.jpg");
+        Room vCombat = new Room("dans la salle d'entrainement aux arts Jedi","Image/kanan_jarrus.JPG");
+        Room vHolocrons = new Room("dans la salle des holocrons","Image/holocrons.jpg");
+        Room vHall = new Room("dans le hall des Jedi","Image/hall.jpg");
+        Room vArchive = new Room("dans la salle des archives Jedi","Image/bibliotheque.jpg");
+        Room vArmurerie = new Room("dans l'armurerie secrète du temple","Image/machine.jpg");
+        Room vConseil = new Room("dans la salle du conseil Jedi","Image/conseil_full.jpg");
+        
+        
+        //attribution des items
+        vKyber.addItem(vConseil);
+        vCellule.addItem(vOutside);
+        vEmetteur.addItem(vHall);
+        vLentille.addItem(vHolocrons);
+        vVerre.addItem(vFontaine);
+        
         // ## déclaration des sorties ##
 
         vOutside.setExits("nord", vCouloir); //entrée gardée
