@@ -22,12 +22,7 @@ public class Item
         return this.aPoids;
     }//accesseur poids
     
-    public String getItemDescription(){
-        StringBuilder vReturnString = new StringBuilder( "" );
-        for ( Room vR : aItemHM.keySet() )
-            vReturnString.append( " " + vR );
-        return vReturnString.toString();
-    }
+   
     
     
 }

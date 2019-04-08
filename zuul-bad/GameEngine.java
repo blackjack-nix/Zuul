@@ -5,12 +5,13 @@ public class GameEngine {
     private Room aCurrentRoom;
     private UserInterface aGui;
     private HashMap<Room, String> aRooms;
+    private Stack<Room> aStackRoom;
     
     
     public GameEngine(){
         aParser = new Parser();
         aRooms = new HashMap<Room,String>();
-        
+        aStackRoom = new Stack<Room>();
         createRooms();
     }
     
@@ -36,10 +37,11 @@ public class GameEngine {
     private void createRooms(){
         // ## déclaration des items
         Item vKyber = new Item("Un crysat de Kyber",1);
-        Item vCellule = new Item("Une cellule d'éebergie",2);
+        Item vCellule = new Item("Une cellule d'énergie",2);
         Item vEmetteur = new Item("Un emetteur",3);
         Item vLentille = new Item("Une lentille",4);
         Item vVerre = new Item("Un verre d'eau",5);
+        Item vTest = new Item("un objet inutile",6);
         
         // ## déclaration des rooms ##
         Room vOutside = new Room("devant l'entrée du temple","Image/entree_gardee.jpg");
@@ -54,11 +56,14 @@ public class GameEngine {
         
         
         //attribution des items
-        vKyber.addItem(vConseil);
-        vCellule.addItem(vOutside);
-        vEmetteur.addItem(vHall);
-        vLentille.addItem(vHolocrons);
-        vVerre.addItem(vFontaine);
+                       
+        vConseil.addItem("Un crysat de Kyber",vKyber);
+        vOutside.addItem("Une cellule d'énergie",vCellule);
+        vHall.addItem("Un emetteur", vEmetteur);
+        vHolocrons.addItem("Une lentille",vLentille);
+        vFontaine.addItem("Un verre d'eau",vVerre);
+        vFontaine.addItem("Un objet inutile",vTest);
+        
         
         // ## déclaration des sorties ##
 
@@ -124,6 +129,7 @@ public class GameEngine {
         }
         else if (vCommandWord.equals("look")) look();
         else if (vCommandWord.equals("eat")) eat();
+        else if (vCommandWord.equals("back"))back();
     }
     
     /**
@@ -151,11 +157,13 @@ public class GameEngine {
             if (vNextRoom == null){
                 aGui.println("There is no door !");
             } else {
+                this.aStackRoom.push(this.aCurrentRoom);
                 this.aCurrentRoom = vNextRoom;
                 aGui.println(aCurrentRoom.getLongDescription());
                 if (aCurrentRoom.getImageName() != null) {
                     aGui.showImage(aCurrentRoom.getImageName());
                 }
+                
             }
         }
     }//goRoom(.)
@@ -180,4 +188,14 @@ public class GameEngine {
     private void printLocationInfo(){
         aGui.println(aCurrentRoom.getLongDescription());
     }//printLocationInfo()
+    
+    private void back(){
+        if ( !this.aStackRoom.empty()){
+            this.aCurrentRoom = this.aStackRoom.pop();
+            this.aGui.println(this.aCurrentRoom.getLongDescription());
+            if (this.aCurrentRoom.getImageName() != null){
+            this.aGui.showImage(this.aCurrentRoom.getImageName());
+            }
+        } else aGui.println("Vous ne pouvez pas aller en arrière");
+    }
 }

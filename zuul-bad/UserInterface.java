@@ -27,6 +27,8 @@ public class UserInterface implements ActionListener
     private JButton    aButtonLook;
     private JButton    aButtonUp;
     private JButton    aButtonDown;
+    private JButton    aButtonQuit;
+    private JButton    aButtonBack;
     
     
     
@@ -113,6 +115,8 @@ public class UserInterface implements ActionListener
         //création des boutons d'action
         this.aButtonEat = new JButton("eat");
         this.aButtonLook = new JButton("look");
+        this.aButtonQuit = new JButton("quit");
+        this.aButtonBack = new JButton("back");
         
         //création des boutons étages
         this.aButtonUp = new JButton("up");
@@ -127,15 +131,19 @@ public class UserInterface implements ActionListener
         
         
         //panel gauche
+        
         JPanel vPanelAction = new JPanel();
-        vPanelAction.add(this.aButtonEat, BorderLayout.EAST);
-        vPanelAction.add(this.aButtonLook, BorderLayout.WEST);
-        this.aMyFrame.getContentPane().add(vPanelAction, BorderLayout.WEST);
+        vPanelAction.add(this.aButtonEat);
+        vPanelAction.add(this.aButtonLook);
+        vPanelAction.add(this.aButtonQuit);
+        vPanelAction.add(this.aButtonBack);
+        
+        vPanel.add(vPanelAction, BorderLayout.WEST);
         
         
         //panel droite
         JPanel vPanelGo = new JPanel();
-        this.aMyFrame.getContentPane().add(vPanelGo, BorderLayout.EAST);
+        vPanel.add(vPanelGo, BorderLayout.EAST);
         vPanelGo.setLayout( new BorderLayout());
         vPanelGo.add(this.aButtonNorth, BorderLayout.NORTH);
         vPanelGo.add(this.aButtonSouth, BorderLayout.SOUTH);
@@ -163,6 +171,7 @@ public class UserInterface implements ActionListener
         this.aButtonEast.addActionListener(this);
         this.aButtonEat.addActionListener(this);
         this.aButtonLook.addActionListener(this);
+        this.aButtonBack.addActionListener(this);
 
         this.aMyFrame.pack();
         this.aMyFrame.setVisible( true );
@@ -198,6 +207,9 @@ public class UserInterface implements ActionListener
         if (vSource == aButtonLook) {
             aEngine.interpretCommand("look");
         }
+        if (vSource == aButtonBack){
+            aEngine.interpretCommand("back");
+        }
     }
     /**
      * A command has been entered. Read the command and do whatever is 
@@ -207,7 +219,6 @@ public class UserInterface implements ActionListener
     {
         String vInput = this.aEntryField.getText();
         this.aEntryField.setText( "" );
-
         this.aEngine.interpretCommand( vInput );
     } // processCommand()
 } // UserInterface 

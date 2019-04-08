@@ -12,9 +12,10 @@ import java.util.Iterator;
 public class Room
 {
     private HashMap <String , Room>  aSortieHM;
+    private HashMap <String , Item> aItemHM;
     private String aDescription;
     private String aImageName;
-    
+
     /**
      * Create rooms with a string description
      *  and create a HashMap of the exits for each
@@ -22,6 +23,7 @@ public class Room
     public Room (final String pDescription , final String pImage){
         this.aDescription = pDescription ;
         aSortieHM = new HashMap <String , Room> ();
+        aItemHM = new HashMap <String, Item>();
         aImageName = pImage;
     }//Room(.)
 
@@ -42,7 +44,9 @@ public class Room
         aSortieHM.put(pDirection,pRoom);
     }//setExit(....)
     
-   
+    public void addItem (final String pDescription , final Item pItem){
+        aItemHM.put(pDescription , pItem);  
+    }
     
       /**
      * Return the exit of the room
@@ -61,6 +65,13 @@ public class Room
     {
         StringBuilder vReturnString = new StringBuilder( "" );
         for ( String vS : aSortieHM.keySet() )
+            vReturnString.append( " " + vS );
+        return vReturnString.toString();
+    }
+    
+    public String getItemDescription(){
+        StringBuilder vReturnString = new StringBuilder( "" );
+        for ( String vS : aItemHM.keySet() )
             vReturnString.append( " " + vS );
         return vReturnString.toString();
     }
