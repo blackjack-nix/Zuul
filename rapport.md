@@ -134,6 +134,82 @@ Pour ajouter une nouvelle commande, il faut en plus de l'ajouter au tableau, mod
 ### Exercice 7.18 :
 On veut éviter le couplage implicite dans la méthode showAll. On modifie alors cette méthode pour qu'elle n'affiche plus mais retourne la String qui nous intéresse, que l'on récupere dans printHelp afin de l'afficher, ce qui évite le couplage implicite.
 
+### Exercice 7.18.1 :
+En comparant mon projet au projet zuul-better, les deux se ressemblent beaucoup 
+
+### Exercice 7.18.3 :
+J'ai pris mes images sur un site de jeu vidéo StarWars, "Star Wars, the old republic". 
+
+### Exercice 7.18.4 :
+J'ai choisis le nom de mon jeu en foncion de l'univers : Zuul-wars.
+
+### Exercice 7.18.5 : 
+On creer une HashMap de Room et leur description afin de les retrouver plus tard si besoin
+
+`private HashMap<String,Room> aRooms;`
+et on ajoute dans le constructeur de game : 
+`aRooms = new HashMap<String,Room>;`
+Et on ajoute les rooms et les string avec :
+`aRooms.put("Description",Room);`
+
+### Exercice 7.18.6 :
+On creer les classes qui manquent, et on renomme les variables et attributs pour plus de coherence avec la reste du projet, ainsi que les spécificitées liées à mon jeu comme les images, textes, descriptions, salles ...
+
+### Exercice 7.18.7 : 
+adddActionListener permet de detecter un clic de souris ou enfoncement de la touche Enter. On importe le paquet java.awt.event.*;
+On déclare qu'on utilisera aussi des interfaces d'écoutes avec :
+`implements ActionListener`.
+Chaque 'auditeur' envoi ses informations à differentes méthodes pour traiter les action. ActionListener envoie ses informations à la méthode actionPerformed( ).
+actionPerformed() permet alors de gerer le traitement des evenements de l'actionListener.
+
+### Exercice 7.18.8 :
+Pour creer un boutton, on import la classe JButton avec :
+`import javax.swing.*;` pour avoir les bouttons, les frames, les panels ... 
+On ajoute un attribut par boutton : 
+`private JButton aButtonNorth;`
+On les initialise dans le contructeur de UserInterface :
+`this.aButtonNorth = new JButton("go nord");`
+J'ai ensuite crée un panel complet position à l'est pour tous mes bouttons de directions :
+`JPanel vPanelGo = new JPanel();`
+`vPanel.add(vPanelGo, BorderLayout.EAST);`
+`vPanelGo.setLayout( new BorderLayout());`
+On ajoute ce bouton au panel avec : 
+`vPanelGo.add(this.aButtonNorth, BorderLayout.NORTH);`
+Mainetenat qu'on a notre boutton, on veut pouvoir cliquer dessus. On ajoute donc un actionListener :
+`this.aButtonNorth.addActionListener(this);`
+Cependant, si on ne traite pas la source du clic, il ne se passera rien. On ajoute donc cette ligne dans ActionPerfomed :
+```java
+if (vSource == aButtonNorth) {
+            aEngine.interpretCommand("go nord");
+        }
+```
+
+### Exercice A savoir expliquer :
+__ActionListener__ : Permet de savoir si clic de souris à été fait ou la touche Enter appuyée.
+__addActionListener()__ : ActionListener envoie des événements à une méthode nommée actionPerformed() : `public void actionPerformed( final ActionEvent pE )`
+__ActionEvent__ : Pour identifier le composant qui a généré l'événement
+__actionPerformed()__ : L'interface ActionListener envoie des événements à la méthode nommée actionPerformed()
+__getActionCommand()__ : Renvoie la String correspondant au texte sur le bouton
+__getSource()__ : Renvoie l'objet qui a généré l'évenement. 
+
+### Exercice 7.19.2 : 
+Pour déplacer rapidement toutes les images, on saisis les commandes suivant en étant dans le dossier du projet :
+`mkdir Images`
+`mv *.jpg Images`
+
+### Exercice 7.20 :
+On créer une nouvelle classe Item avec un attribut poids, une description et un nom. On ajoute ensuite les methodes classiques de constructeur, getters et setters. On en profite pour faire une hashmap pour réuperer toutes les infos dont on aura besoin plus tard. On modifie aussi le constructeur de game engine pour pouvoir inculre un objet dans chaque room. On initialisie les items dans le contructeur de game engine aussi. On ajoute à getLongDescription une fonction pour pouvoir aficher l'item disponible dans la salle. 
+
+### Exercice 7.22 : 
+Pour avoir un nombre illimité d'item, on peut fare la meme chose que pour les sorties, c'est a dire faire une hashmap entre les room et les objet, et apres les ajouter un a un. On peut ainsi attribuer plusisuers items à chaque room. Pour retourner la description de chaque item, on peut faire une méthode qui renvoie chaque description de tous les items presents dans cette salle, avec :
+```java
+public String getItemName(){
+        StringBuilder vReturnString = new StringBuilder( "" );
+        for ( String vS : aItemHM.keySet() )vReturnString.append( " " + vS );
+        return vReturnString.toString();
+    }
+```
+
 ## 3) Mode d'emploi
 Apres avoir téléchargé l'archive ci-jointe, ouvrez BlueJ. dans Files, cliquez sur Open jar/zip project et séléctionnez l'archive. Sur la case Game, clique droit, new game(). Un carré rouge apparait alors en bas à gauche de l'écran. Clique droit et void play() pour lancer le jeu. Les commandes valides sont go + direction, help, quit, eat, look.
 
