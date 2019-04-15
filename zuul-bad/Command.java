@@ -1,6 +1,3 @@
- 
-
-
 public class Command
 {
     private String aCommandWord;
@@ -46,7 +43,5 @@ public class Command
     public boolean isUnknown(){
         return this.aCommandWord == null;
     }//isUnknown()
-    
-    
     
 } // Command

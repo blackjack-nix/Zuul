@@ -43,12 +43,12 @@ public class Room
     public void setExits (final String pDirection, final Room pRoom){
         aSortieHM.put(pDirection,pRoom);
     }//setExit(....)
-    
+
     public void addItem (final String pDescription , final Item pItem){
         aItemHM.put(pDescription , pItem);  
     }
-    
-      /**
+
+    /**
      * Return the exit of the room
      * @return Return the room after taking the direction
      * @param pDirection Direction you want to take in the room
@@ -68,14 +68,13 @@ public class Room
             vReturnString.append( " " + vS );
         return vReturnString.toString();
     }
-    
-    public String getItemDescription(){
+
+    public String getItemName(){
         StringBuilder vReturnString = new StringBuilder( "" );
-        for ( String vS : aItemHM.keySet() )
-            vReturnString.append( " " + vS );
+        for ( String vS : aItemHM.keySet() )vReturnString.append( " " + vS );
         return vReturnString.toString();
     }
-    
+
     /**
      * Renvoie une description détillée de cette piece sous la forme :
      *      vous etes dans + piece
@@ -83,11 +82,12 @@ public class Room
      * @return Une description de la piece avec les sorties
      */
     public String getLongDescription(){
-        String vGetLongDescription = "\n"+"Vous etes "+this.aDescription+". Sorties : "+this.getExitString() + "\n" + "Objet disponible dans cette salle : " + getItemDescription();
+        String vGetLongDescription = "\n"+"Vous etes "+this.aDescription+". Sorties : "+this.getExitString() + "\n" + "Objet disponible dans cette salle : " + this.getItemName();
+
         return vGetLongDescription;
-        
+
     }
-    
+
     /**
      * Return the description of the room (the one that was defined in the
      * constructor).
@@ -96,7 +96,7 @@ public class Room
     {
         return this.aDescription;
     }
-    
+
     public String getImageName(){
         return this.aImageName;
     }

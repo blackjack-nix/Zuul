@@ -1,0 +1,4 @@
+go nord
+help
+go west
+eat

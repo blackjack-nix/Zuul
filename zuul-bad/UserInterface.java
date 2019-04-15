@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.net.URL;
 import java.awt.image.*;
 import java.util.*;
+import java.io.*;
 
 /**
  * This class implements a simple graphical user interface with a text entry
@@ -27,7 +28,7 @@ public class UserInterface implements ActionListener
     private JButton    aButtonLook;
     private JButton    aButtonUp;
     private JButton    aButtonDown;
-    private JButton    aButtonQuit;
+    private JButton    aButtonJoin;
     private JButton    aButtonBack;
     
     
@@ -115,7 +116,7 @@ public class UserInterface implements ActionListener
         //création des boutons d'action
         this.aButtonEat = new JButton("eat");
         this.aButtonLook = new JButton("look");
-        this.aButtonQuit = new JButton("quit");
+        this.aButtonJoin = new JButton("join the force");
         this.aButtonBack = new JButton("back");
         
         //création des boutons étages
@@ -135,7 +136,7 @@ public class UserInterface implements ActionListener
         JPanel vPanelAction = new JPanel();
         vPanelAction.add(this.aButtonEat);
         vPanelAction.add(this.aButtonLook);
-        vPanelAction.add(this.aButtonQuit);
+        vPanelAction.add(this.aButtonJoin);
         vPanelAction.add(this.aButtonBack);
         
         vPanel.add(vPanelAction, BorderLayout.WEST);
@@ -172,6 +173,7 @@ public class UserInterface implements ActionListener
         this.aButtonEat.addActionListener(this);
         this.aButtonLook.addActionListener(this);
         this.aButtonBack.addActionListener(this);
+        this.aButtonJoin.addActionListener(this);
 
         this.aMyFrame.pack();
         this.aMyFrame.setVisible( true );
@@ -209,6 +211,11 @@ public class UserInterface implements ActionListener
         }
         if (vSource == aButtonBack){
             aEngine.interpretCommand("back");
+        }
+        if (vSource == aButtonJoin){
+            aEngine.interpretCommand("join_the_force");
+            try {Thread.sleep(6000);} catch (Exception pEx){};
+            aMyFrame.dispose();
         }
     }
     /**
