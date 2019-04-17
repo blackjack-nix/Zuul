@@ -1,0 +1,15 @@
+go nord
+go ouest
+go nord
+go sud
+go est
+go est
+go nord
+back
+back
+go nord
+go bas
+look
+eat
+help
+join_the_force

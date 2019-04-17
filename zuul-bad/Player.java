@@ -7,49 +7,67 @@ public class Player
     private UserInterface aGui;
     private int aPoidMAX = 100;
     private Stack<Room> aStackRoom;
+    private Item aItemPorte;
+    /**
+     * constructeur de Player
+     * @param String nom du joueur
+     * @param Room room de départ
+     */
     
     public Player (final String pNom , final Room pCurrentRoom ){
         this.aCurrentRoom = pCurrentRoom;
-        
         this.aNom = pNom;
         aStackRoom = new Stack<Room>();
+        
     }
-    
+
+    /**
+     * Constructeur de gui
+     * @param UserInterface pGui
+     */
     public void setGui(final UserInterface pUserInterface)
     {
         this.aGui = pUserInterface; 
     }
-    
+
+    /**
+     * retourne la room actuelle
+     * @return Room aCurrentRoom
+     */
     public Room getCurrentRoom()
     {
         return this.aCurrentRoom;
     }
-    
+
     /**
      * Affiche une description du lieu courant
      */
     public void look(){
-        aGui.println(aCurrentRoom.getLongDescription());
+        printLocationInfo();
     }
-    
+
     /**
      * manger, pas utile dans ce jeu mais demandé
      */
     public void eat(){
         aGui.println("You have eaten now and you are not hungry any more.");   
     }
-    
+
     /**
      * Print infos about wher you are and the exits available
      */
     private void printLocationInfo(){
         aGui.println(aCurrentRoom.getLongDescription());
     }//printLocationInfo()
-    
+
+    /**
+     * retourne le nom du jour actuel
+     * @return String nom
+     */
     public String getName(){
         return this.aNom;
     }
-    
+
     /**
      * Permet de revenir en arriere au moyen d'une stack
      */
@@ -57,15 +75,23 @@ public class Player
     public void back(){
         if ( !this.aStackRoom.empty()){
             this.aCurrentRoom = this.aStackRoom.pop();
-            this.aGui.println(this.aCurrentRoom.getLongDescription());
-            if (this.aCurrentRoom.getImageName() != null){
-                this.aGui.showImage(this.aCurrentRoom.getImageName());
-            }
+            changeRoom(aCurrentRoom);
         } else aGui.println("Vous ne pouvez pas aller en arrière");
     }
-    
-    
-    
+
+    /**
+     * Permet de retourner la stack de room
+     * @return Stack room
+     */
+    public Stack<Room> getStackRoom(){
+        return this.aStackRoom;
+    }
+
+    /**
+     * Change de room
+     * @param Room la room ou aller
+     */
+
     public void changeRoom(final Room pRoom)
     {
         this.aCurrentRoom = pRoom; 
@@ -73,7 +99,7 @@ public class Player
         if(this.aCurrentRoom.getImageName() != null)
             this.aGui.showImage(this.aCurrentRoom.getImageName());  
     }
-    
+
     /**
      * Print the welcome tips
      */
@@ -86,4 +112,17 @@ public class Player
         aGui.println(aCurrentRoom.getLongDescription());
         aGui.showImage(aCurrentRoom.getImageName());
     }//printWelcome() 
+    
+    /**
+     * permet de deposer l'item porté par le joueur dans la piece
+     */
+    public void drop(){
+        if (this.aItemPorte != null){
+            aItemPorte.addItem(this.aCurrentRoom);
+            this.aItemPorte = null;
+        } else aGui.println("Vous ne portez pas d'item");
+        
+    }
+    
+    
 }

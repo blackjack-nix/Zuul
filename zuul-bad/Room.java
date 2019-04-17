@@ -17,8 +17,7 @@ public class Room
     private String aImageName;
 
     /**
-     * Create rooms with a string description
-     *  and create a HashMap of the exits for each
+     * Create rooms with a string description and create a HashMap of the exits for each
      */
     public Room (final String pDescription , final String pImage){
         this.aDescription = pDescription ;
@@ -44,6 +43,11 @@ public class Room
         aSortieHM.put(pDirection,pRoom);
     }//setExit(....)
 
+    /**
+     * Permet d'ajouter un objet a la room
+     * @param String description de l'objet
+     * @param Item item à ajouter
+     */
     public void addItem (final String pDescription , final Item pItem){
         aItemHM.put(pDescription , pItem);  
     }
@@ -69,6 +73,10 @@ public class Room
         return vReturnString.toString();
     }
 
+    /**
+     * Renvoie une string qui correspond a tous les items presents dans la room
+     * @return String String qui correspond au nom de ous les items presents dans la room
+     */
     public String getItemName(){
         StringBuilder vReturnString = new StringBuilder( "" );
         for ( String vS : aItemHM.keySet() )vReturnString.append( " " + vS );
@@ -97,7 +105,11 @@ public class Room
         return this.aDescription;
     }
 
-    public String getImageName(){
+    /**
+     * Renvoie le chemin de la room
+     * @return String Chemin de l'image
+     */
+        public String getImageName(){
         return this.aImageName;
     }
 } // Room

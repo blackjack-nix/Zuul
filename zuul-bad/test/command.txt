@@ -1,0 +1,9 @@
+go nord
+go west
+go est
+go sud
+help
+eat
+look
+back
+join_the_force

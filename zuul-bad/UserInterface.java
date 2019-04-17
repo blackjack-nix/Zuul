@@ -50,6 +50,7 @@ public class UserInterface implements ActionListener
 
     /**
      * Print out some text into the text area.
+     * @param String what to print
      */
     public void print( final String pText )
     {
@@ -214,8 +215,7 @@ public class UserInterface implements ActionListener
         }
         if (vSource == aButtonJoin){
             aEngine.interpretCommand("join_the_force");
-            try {Thread.sleep(6000);} catch (Exception pEx){};
-            aMyFrame.dispose();
+            //aMyFrame.dispose();
         }
     }
     /**

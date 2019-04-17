@@ -6,7 +6,6 @@ public class GameEngine {
     private Parser aParser;
     private UserInterface aGui;
     private HashMap<String,Room> aRooms;
-    private Stack<Room> aStackRoom;
     private Player aPlayer;
     private Audio aAudio;
 
@@ -16,8 +15,6 @@ public class GameEngine {
     public GameEngine(){
         aParser = new Parser();
         aRooms = new HashMap<String , Room>();
-        aStackRoom = new Stack<Room>();
-        this.aPlayer = new Player ("théo",aRooms.get("vOutside"));
         createRooms();
         this.aAudio = new Audio("son/sonsw.wav");
         this.aAudio.play();
@@ -26,6 +23,7 @@ public class GameEngine {
 
     /**
      * création de l'interface graphique
+     * @param UserInterface 
      */
     public void setGUI(UserInterface pUserInterface){
         this.aGui = pUserInterface;
@@ -90,8 +88,8 @@ public class GameEngine {
 
         vConseil.setExits("up",vHall);
 
-        // ## initialisation du lieu de départ ##
-        aPlayer.changeRoom(vOutside);
+        String vPrenom = javax.swing.JOptionPane.showInputDialog( "Padawan, quel est ton prenom ?" );
+        this.aPlayer = new Player (vPrenom,vOutside);
 
         // ## HashMap rooms
         aRooms.put("vOutside" , vOutside);
@@ -125,7 +123,7 @@ public class GameEngine {
             if(vCommand.hasSecondWord())
                 aGui.println("Quit what?");
             else
-                endGame();
+                join_the_force();
         }
         else if (vCommandWord.equals("look")) aPlayer.look();
         else if (vCommandWord.equals("eat")) aPlayer.eat();
@@ -135,6 +133,7 @@ public class GameEngine {
                 test(vCommand.getSecondWord());
         }
         else if (vCommandWord.equals("join_the_force")) join_the_force();
+        else if (vCommandWord.equals("drop")) aPlayer.drop();
     }
 
 
@@ -156,24 +155,20 @@ public class GameEngine {
             if (vNextRoom == null){
                 aGui.println("There is no door !");
             } else {
-                this.aStackRoom.push(aPlayer.getCurrentRoom());
+                aPlayer.getStackRoom().push(aPlayer.getCurrentRoom());
                 aPlayer.changeRoom(vNextRoom);
-
+                
             }
         }
+        if (this.aAudio.isFinished()){
+            this.aAudio.playSound("son/sonsw.wav");
+        }
+            
     }//goRoom(.)
 
+
+
     /**
-     * Permet de quiter le jeu de facon brutale
-     */
-    private void endGame()
-    {
-        aGui.println("Thank you for playing. Good bye.");
-        aGui.enable(false);
-    }
-
-
-/**
      * Print help tips (where you are, exits, commands...)
      */
     public void printHelp(){
@@ -186,16 +181,18 @@ public class GameEngine {
 
 
     /** 
-     * permet de lire les intructions tappées dans un fichier text
+     * permet de lire les intructions tappées dans un fichier texte
+     * @param String le chemin du fichier
      */
     private void test (final String pFichier){
         Scanner vSc;
         String vFichier = pFichier;
         if (! vFichier.endsWith(".txt")) vFichier += ".txt";
+        if (! vFichier.startsWith("test/")) vFichier = "test/"+vFichier;
         try { 
             InputStream vIs = getClass().getResourceAsStream(vFichier);
             vSc = new Scanner( vIs );
-
+            
             while ( vSc.hasNextLine() ) {
                 String vLigne = vSc.nextLine();
                 this.interpretCommand(vLigne);
@@ -207,9 +204,16 @@ public class GameEngine {
         }// catch
 
     }//test
-
-    private void join_the_force (){
+    
+    /**
+     * permet de quitter le jeu en affichant un message, avec un delais d'attente, en stoppant la musique et en fermant la page
+     */
+    private void join_the_force () {
+        aGui.println("Thank you for playing. Good bye.");
         aGui.println("Vous avez rejoint la force");
-        endGame();
+        this.aAudio.stop();
+        aGui.enable(false);
     }
+    
+    
 }
