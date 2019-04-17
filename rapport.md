@@ -10,7 +10,7 @@ Dans un **temple Jedi**, toi, un jeune Padwan, dois achever sa formation en cré
 Au **temple Jedi** de Coruscant, tu devras, pour finir ta formation Jedi, construire ton propre sabre lasert, arme légendaire des Jedi et craint à travers toute la galaxie. Pour cela, tu devras recupérer les pièces manquantes en parcourant le temple à la recherche de ces pièces nécessaires à sa création.
 
 ## 1.D) Plan
-![Plan du jeu](/home/peresse/Downloads/map2.jpg)
+![Plan du jeu](Carte.png)
 
 ## 1.E) Scénario détaillé
 Un jeune Jedi doit passer par une phase d'apprentissage. Il devient alors un Padawan. Afin de terminer sa formation, il doit rassembler 5 objets et construire son sabre lasert dans l'armurerie du temple. Pour récupéré ces 5 objets, il devra parcourir seul le temple Jedi et se rendre dans les bonnes pièces.
@@ -200,6 +200,11 @@ Pour déplacer rapidement toutes les images, on saisis les commandes suivant en 
 ### Exercice 7.20 :
 On créer une nouvelle classe Item avec un attribut poids, une description et un nom. On ajoute ensuite les methodes classiques de constructeur, getters et setters. On en profite pour faire une hashmap pour réuperer toutes les infos dont on aura besoin plus tard. On modifie aussi le constructeur de game engine pour pouvoir inculre un objet dans chaque room. On initialisie les items dans le contructeur de game engine aussi. On ajoute à getLongDescription une fonction pour pouvoir aficher l'item disponible dans la salle. 
 
+### Exercice 7.21 : 
+Les informations qui relatives aux Items doivent être produites par la classe Item.
+Les informations relatives aux items presents dans une room doivent être produites par la classe Room.
+Touces ces informations doivent être affichées par la classe GameEngine.
+
 ### Exercice 7.22 : 
 Pour avoir un nombre illimité d'item, on peut fare la meme chose que pour les sorties, c'est a dire faire une hashmap entre les room et les objet, et apres les ajouter un a un. On peut ainsi attribuer plusisuers items à chaque room. Pour retourner la description de chaque item, on peut faire une méthode qui renvoie chaque description de tous les items presents dans cette salle, avec :
 ```java
@@ -209,6 +214,192 @@ public String getItemName(){
         return vReturnString.toString();
     }
 ```
+On appelle alors cette methode dans getLongDescription, ce qui permet d'afficher à chaque changement de salle les objets disponible dans la salle.
+
+### Exercice 7.22.2 :
+On creer une hashmap qui contiendra les rooms et les items dans Item, et on fait une methode publique pour ajouter des elements. 
+On crer les items dans createRoom avec le contructeur d'item, et de la même facon qu'on a ajouté les sorties, on ajoutes les objets dans la hashmap. On ajoute une fonction qui renoie une string qui continet les items dans une room, qu'on affiche ensuite dans gameEngine. 
+
+### Exercice 7.23 : 
+Pour faire une commande back, il faut dans un premier temps ajouter cette commande dans le tableau de commande, ainsi que dans la commande interpretCommand afin qu'elle y soit interprétée.
+Concernant la commande, il faut stocker la précédente piece dans une variable avant chaque changement de Romm. Cela se fait dans goRoom. Par la suite, on doit, lors de l'appel de back, on change aCurrentRoom et on refait l'affichage de la description et l'image.
+
+### Exercice 7.26 : 
+Le prombleme avec la commande back est qu'elle ne peut marcher qu'une fois. En effet, chaque room n'est stockée qu'une fois. On resoud cela en créant une stack de Room dans laquelle on stock toutes les salles visitées.
+On créer un atribut aStackRoom avec : `private Stack<Room> aStackRoom;`, qu'on initialise dans le constructeur `this.aStackRoom = new Stack<Room>();`. Ensuite, on ajoute la room courante avant le changement de room dans goRoom avec :
+```java
+ this.aStackRoom.push(aCurrentRoom);
+```
+Et dans back, on veut en réalité enlever une piece de cette pile, bien evidement en verifiant si la pile n'est pas vide. Dans back, on fait : 
+```java
+ this.aCurrentRoom = this.aStackRoom.pop();
+```
+Et on refait l'affichage de la piece courrante (image et description).
+
+### A savoir expliquer : 
+__Stack :__ Une stack est une collection que l'on peut rapporcher d'une pile d'assiette. On peut ajouter des objets sur le dessus de la pile, mais pas au milieu, tout comme on peut enlever l'objet qui se trouve sur le dessus.
+__push() :__  push sur une stack permet d'ajouter l'objet passé en parametre sur le dessus de la Stack.
+__pop() :__ pop sur une Stack permet de retirer et de renvoyer l'objet qui se trouvait sur le dessus de la Stack.
+__empty() :__ la commande empty est une fonction boolenne qui revoir vrai si la stack en question est vide et faux si la stack contient au moins un element.
+__peek() :__ la commande peek permet de renvoyer l'objet sur le dessus de la Stack sans la supprimer de la Stack
+
+### Exercice 7.28.1 :
+On creer une methode qui prend en parametre une string correspondant au chemin du fichier a tester. Ensuite, on reprend le meme schema de methode que pour le TP des exceptions, sauf qu'au lieu d'afficher les lignes on appelle interprete command sur nextLine, ce qui nous donne :
+```java
+private void test (final String pFichier){
+        Scanner vSc;
+        String vFichier = pFichier;
+        if (! vFichier.endsWith(".txt")) vFichier += ".txt";
+		if (! vFichier.startsWith("test/")) vFichier = "test/"+vFichier;
+        try {
+            InputStream vIs = getClass().getResourceAsStream(vFichier);
+            vSc = new Scanner( vIs );
+            
+            while ( vSc.hasNextLine() ) {
+                String vLigne = vSc.nextLine();
+                this.interpretCommand(vLigne);
+            } // while()
+
+        } // try
+        catch ( final Exception pE) {
+            this.aGui.println("Erreur dans le fichier" + pE.getMessage());
+        }// catch
+
+    }//test
+```
+Pour ajouter une nouvelle commande, comme pour back, on doit ajouter test dans les mots autorisés, ainsi que dans interpret command.
+J'ai deplacé les fichier.txt dans un dossier test afin de faciliter leur modification, et ai prévu cela dans mon code.
+Mon premier fichier court s'appelle court.txt
+Le second fichier qui test toutes les commandes s'appelle command.txt
+Le fichier qui permet de visiter toutes les salles du jeu s'appelle long.txt
+
+### Exercice 7.29 :
+On creer une classe Player qui comport les attributs suivants : 
+aCurrentRoom, aGui, aNom, une Stack et un poid max.
+On fait un constructeur classique, pour initialiser les attributs. On ajoutes les accesseurs et modificateurs classiques. Ensuite, on supprime l'attribut aCurrentRoom de la classe GameEngine et on passe dans Player toutes les methodes qui ne compilent plus, puis on ajoute un atribut aPlayer à GameEngine. Ensuite, on corrige es erreurs, notement en remplacant this.methode par aPlayer.methode, ou encore aPlayer.get.methode(). On obtient à la fin : 
+```java
+import java.util.*;
+
+public class Player
+{
+    private Room aCurrentRoom;
+    private String aNom;
+    private UserInterface aGui;
+    private int aPoidMAX = 100;
+    private Stack<Room> aStackRoom;
+    /**
+     * constructeur de Player
+     * @param String nom du joueur
+     * @param Room room de départ
+     */
+    
+    public Player (final String pNom , final Room pCurrentRoom ){
+        this.aCurrentRoom = pCurrentRoom;
+        this.aNom = pNom;
+        aStackRoom = new Stack<Room>();
+        
+    }
+
+    /**
+     * Constructeur de gui
+     * @param GUI
+     */
+    public void setGui(final UserInterface pUserInterface)
+    {
+        this.aGui = pUserInterface; 
+    }
+
+    /**
+     * retourne la room actuelle
+     * @return Room aCurrentRoom
+     */
+    public Room getCurrentRoom()
+    {
+        return this.aCurrentRoom;
+    }
+
+    /**
+     * Affiche une description du lieu courant
+     */
+    public void look(){
+        printLocationInfo();
+    }
+
+    /**
+     * manger, pas utile dans ce jeu mais demandé
+     */
+    public void eat(){
+        aGui.println("You have eaten now and you are not hungry any more.");   
+    }
+
+    /**
+     * Print infos about wher you are and the exits available
+     */
+    private void printLocationInfo(){
+        aGui.println(aCurrentRoom.getLongDescription());
+    }//printLocationInfo()
+
+    /**
+     * retourne le nom du jour actuel
+     * @return nom
+     */
+    public String getName(){
+        return this.aNom;
+    }
+
+    /**
+     * Permet de revenir en arriere au moyen d'une stack
+     */
+
+    public void back(){
+        if ( !this.aStackRoom.empty()){
+            this.aCurrentRoom = this.aStackRoom.pop();
+            changeRoom(aCurrentRoom);
+        } else aGui.println("Vous ne pouvez pas aller en arrière");
+    }
+
+    /**
+     * Permet de retourner la stack de room
+     * @return stack room
+     */
+    public Stack<Room> getStackRoom(){
+        return this.aStackRoom;
+    }
+
+    /**
+     * Change de room
+     * @param la room ou aller
+     */
+
+    public void changeRoom(final Room pRoom)
+    {
+        this.aCurrentRoom = pRoom; 
+        this.aGui.println(this.aCurrentRoom.getLongDescription());
+        if(this.aCurrentRoom.getImageName() != null)
+            this.aGui.showImage(this.aCurrentRoom.getImageName());  
+    }
+
+    /**
+     * Print the welcome tips
+     */
+    public void printWelcome(){
+        aGui.println("Player : " + this.getName());
+        aGui.println("Bienvenue dans le jeu d'aventure StarWars !");
+        aGui.println("Ta formation est bientôt terminé jeune Padawan. Récpuère les objets nécéssaires à la création de ton sabre lasert pour enfin devenir un vrai Jedi et finir ce jeu");
+        aGui.println("Tappe help si tu as besoin d'aide !");
+        aGui.println("\n");
+        aGui.println(aCurrentRoom.getLongDescription());
+        aGui.showImage(aCurrentRoom.getImageName());
+    }//printWelcome() 
+}
+
+```
+
+### Exercice 7.30 :
+Pour la méthode `drop`, on créer un attribut Item qui correspond à l'item que la joueur porte. On verifie que l'objet porté n'est pas nul. Si c'est le cas, alors on ajoute l'objet porté à la piece avec la methode addItem, puis on met à nul l'objet porté.
+
+### Fonctionnalitée supplémentaire :
+L'ai ajouté de la musique à mon jeu, avec la classe audio qui me permet de gerer le lancement ou l'arret de la lecture d'un fichier audio en .wav
 
 ## 3) Mode d'emploi
 Apres avoir téléchargé l'archive ci-jointe, ouvrez BlueJ. dans Files, cliquez sur Open jar/zip project et séléctionnez l'archive. Sur la case Game, clique droit, new game(). Un carré rouge apparait alors en bas à gauche de l'écran. Clique droit et void play() pour lancer le jeu. Les commandes valides sont go + direction, help, quit, eat, look.
