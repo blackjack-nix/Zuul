@@ -37,12 +37,12 @@ public class GameEngine {
      */
     private void createRooms(){
         // ## déclaration des items
-        Item vKyber = new Item("Un crystal de Kyber",1,"Le cristal permet de concentrer l'energie brut en un rayon, ce qui en fait un composant essentiel. C'est aussi lui qui détermine la couleur du sabre.");
-        Item vCellule = new Item("Une cellule d'énergie",2,"La cellule d'energie permet d'alimenter la lame du sabre.");
-        Item vEmetteur = new Item("Un emetteur",3,"L'emetteur permet de concenter la puissance de la cellule en une lame droite");
-        Item vLentille = new Item("Une lentille",4, "La lentille permet de regler la taille et l'epaisser de la lame");
-        Item vVerre = new Item("Un verre d'eau",5, "quelqu'un a -il soif ?");
-        Item vTest = new Item("un objet inutile",6,"ceci est un objet inutil au jeu" );
+        Item vKyber = new Item("Crystal",1,"Le cristal permet de concentrer l'energie brut en un rayon, ce qui en fait un composant essentiel. C'est aussi lui qui détermine la couleur du sabre.");
+        Item vCellule = new Item("Cellule",2,"La cellule d'energie permet d'alimenter la lame du sabre.");
+        Item vEmetteur = new Item("Emetteur",3,"L'emetteur permet de concenter la puissance de la cellule en une lame droite");
+        Item vLentille = new Item("Lentille",4, "La lentille permet de regler la taille et l'epaisser de la lame");
+        Item vVerre = new Item("Verre",5, "quelqu'un a -il soif ?");
+        Item vTest = new Item("Objet",6,"ceci est un objet inutil au jeu" );
 
         // ## déclaration des rooms ##
         Room vOutside = new Room("devant l'entrée du temple","Image/entree_gardee.jpg");
@@ -56,12 +56,12 @@ public class GameEngine {
         Room vConseil = new Room("dans la salle du conseil Jedi","Image/conseil_full.jpg");
 
         //attribution des items
-        vConseil.addItem("Un crysat de Kyber",vKyber);
-        vOutside.addItem("Une cellule d'énergie",vCellule);
-        vHall.addItem("Un emetteur", vEmetteur);
-        vHolocrons.addItem("Une lentille",vLentille);
-        vFontaine.addItem("Un verre d'eau",vVerre);
-        vFontaine.addItem("Un objet inutile",vTest);
+        vConseil.addItem("Crystal",vKyber);
+        vOutside.addItem("Cellule",vCellule);
+        vHall.addItem("Emetteur", vEmetteur);
+        vHolocrons.addItem("Lentille",vLentille);
+        vFontaine.addItem("Verre",vVerre);
+        vFontaine.addItem("Objet",vTest);
 
         // ## déclaration des sorties ##
         vOutside.setExits("nord", vCouloir); //entrée gardée
@@ -133,7 +133,9 @@ public class GameEngine {
                 test(vCommand.getSecondWord());
         }
         else if (vCommandWord.equals("join_the_force")) join_the_force();
-        else if (vCommandWord.equals("drop")) aPlayer.drop();
+        //else if (vCommandWord.equals("drop")) aPlayer.drop();
+        //else if (vCommandWord.equals("take")) aPlayer.take(vCommand);
+            
     }
 
 

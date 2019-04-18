@@ -26,7 +26,16 @@ public class Item
         aItemHM.put(pRoom,this);
     }//addItem()
     
+    public void removeItem (final String pObjetDescrition){
+        this.aItemHM.remove("pObjetDescription");
+        
+    }
    
+    public Item getObjet (final String pObjetDescription){
+        return this.aItemHM.get(pObjetDescription);
+        
+    }
+    
     /**
      * renvoie une description de l'objet
      * @return String Une description de l'objet
@@ -43,12 +52,14 @@ public class Item
         return this.aNom;
     } //getNom()
     
+    
+    
     /**
      * renvoie le poid de l'objet passé en parametre
      * @param Item Item dont on veut connaitre le poid
      * @return int le poid de l'objet passé en parametre
      */
-    public int getPoids (final Item pItem){
+    public int getPoids (){
         return this.aPoids;
     }//accesseur poids
 }

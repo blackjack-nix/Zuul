@@ -12,7 +12,9 @@
 public class CommandWords
 {
     // tableau constant qui contient tous les mots de commande valides
-    private static final String[] sValidCommands = {"go", "quit", "help","look","eat","back","test","join_the_force","drop"};
+    private static final String[] sValidCommands = {"go", "quit", "help","look","eat","back","test","join_the_force",
+        //"drop","take"
+    };
 
     /**
      * Constructeur par defaut

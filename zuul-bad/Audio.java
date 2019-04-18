@@ -37,6 +37,6 @@ public class Audio {
         vS.play();
     }
     public boolean isFinished(){
-        return aClip.isActive();        
+        return ! aClip.isActive();        
     }
 }

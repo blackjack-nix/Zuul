@@ -1,3 +1,4 @@
+
 import java.util.*;
 
 public class Player
@@ -113,10 +114,10 @@ public class Player
         aGui.showImage(aCurrentRoom.getImageName());
     }//printWelcome() 
     
-    /**
+    /*/**
      * permet de deposer l'item porté par le joueur dans la piece
      */
-    public void drop(){
+    /*public void drop(){
         if (this.aItemPorte != null){
             aItemPorte.addItem(this.aCurrentRoom);
             this.aItemPorte = null;
@@ -124,5 +125,25 @@ public class Player
         
     }
     
+    public void take(Command pCommand){
     
+        if(!pCommand.hasSecondWord()) {
+            aGui.println("Que veux tu prendre ?");
+        }
+        else {
+                String vObjet = pCommand.getSecondWord();
+                Item vItem = this.aCurrentRoom.getItems().getObjet(vObjet);
+                if ( vItem == null){
+                aGui.println(
+                    "Cet objet n'est pas dans cette pièce");
+                }
+                else {                    
+                        this.aItemPorte = vItem;
+                        this.aCurrentRoom.getItems().removeItem(vObjet);
+                        aGui.println ("Vous avez pris " + vItem.getDescription()+" !");
+                    }
+        }
+    }
+        */
 }
+

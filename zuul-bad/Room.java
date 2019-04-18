@@ -52,6 +52,10 @@ public class Room
         aItemHM.put(pDescription , pItem);  
     }
 
+    public Item getItems(){
+        return aItemHM.get(this);
+    }
+    
     /**
      * Return the exit of the room
      * @return Return the room after taking the direction
