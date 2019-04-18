@@ -16,7 +16,7 @@ public class GameEngine {
         aParser = new Parser();
         aRooms = new HashMap<String , Room>();
         createRooms();
-        this.aAudio = new Audio("son/sonsw.wav");
+        this.aAudio = new Audio("son/imperial.wav");
         this.aAudio.play();
         
     }
@@ -163,7 +163,7 @@ public class GameEngine {
             }
         }
         if (this.aAudio.isFinished()){
-            this.aAudio.playSound("son/sonsw.wav");
+            this.aAudio.playSound("son/imperial.wav");
         }
             
     }//goRoom(.)
