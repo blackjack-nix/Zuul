@@ -8,6 +8,8 @@ public class GameEngine {
     private HashMap<String,Room> aRooms;
     private Player aPlayer;
     private Audio aAudio;
+    private boolean aDialoguevOutside;
+
 
     /**
      * constructeur de game engine
@@ -18,7 +20,7 @@ public class GameEngine {
         createRooms();
         this.aAudio = new Audio("son/imperial.wav");
         this.aAudio.play();
-        
+
     }
 
     /**
@@ -31,18 +33,17 @@ public class GameEngine {
         aPlayer.printWelcome();
     }
 
-
     /**
      * insitialise les rooms, items, sorties et la piece courante
      */
     private void createRooms(){
         // ## déclaration des items
-        Item vKyber = new Item("Crystal",1,"Le cristal permet de concentrer l'energie brut en un rayon, ce qui en fait un composant essentiel. C'est aussi lui qui détermine la couleur du sabre.");
-        Item vCellule = new Item("Cellule",2,"La cellule d'energie permet d'alimenter la lame du sabre.");
-        Item vEmetteur = new Item("Emetteur",3,"L'emetteur permet de concenter la puissance de la cellule en une lame droite");
-        Item vLentille = new Item("Lentille",4, "La lentille permet de regler la taille et l'epaisser de la lame");
-        Item vVerre = new Item("Verre",5, "quelqu'un a -il soif ?");
-        Item vTest = new Item("Objet",6,"ceci est un objet inutil au jeu" );
+        Item vKyber = new Item("Crystal",5);
+        Item vCellule = new Item("Cellule",5);
+        Item vEmetteur = new Item("Emetteur",5);
+        Item vLentille = new Item("Lentille",5);
+        Item vVerre = new Item("Verre",5);
+        Item vMagicCookie = new Item("MagicCookie",0);
 
         // ## déclaration des rooms ##
         Room vOutside = new Room("devant l'entrée du temple","Image/entree_gardee.jpg");
@@ -61,7 +62,8 @@ public class GameEngine {
         vHall.addItem("Emetteur", vEmetteur);
         vHolocrons.addItem("Lentille",vLentille);
         vFontaine.addItem("Verre",vVerre);
-        vFontaine.addItem("Objet",vTest);
+        vFontaine.addItem("MagicCookie",vMagicCookie);
+        
 
         // ## déclaration des sorties ##
         vOutside.setExits("nord", vCouloir); //entrée gardée
@@ -133,12 +135,18 @@ public class GameEngine {
                 test(vCommand.getSecondWord());
         }
         else if (vCommandWord.equals("join_the_force")) join_the_force();
-        //else if (vCommandWord.equals("drop")) aPlayer.drop();
-        //else if (vCommandWord.equals("take")) aPlayer.take(vCommand);
-            
+        else if (vCommandWord.equals("drop")) aPlayer.drop(vCommand);
+        else if (vCommandWord.equals("take")) aPlayer.take(vCommand);
+        else if (vCommandWord.equals("inventaire")) this.aGui.println(this.aPlayer.getItemList().inventory());
+
     }
 
-
+    public void showPoids (){
+        String vS = "Le poids de votre inventaire est de :";
+        vS += aPlayer.getItemList().getPoids();
+        vS += "\n Le poids maximum est de 10";
+        this.aGui.println(vS);
+    }
     /**
      * Permet de changer de room 
      * @ param Commande
@@ -159,17 +167,16 @@ public class GameEngine {
             } else {
                 aPlayer.getStackRoom().push(aPlayer.getCurrentRoom());
                 aPlayer.changeRoom(vNextRoom);
-                
+
             }
         }
         if (this.aAudio.isFinished()){
             this.aAudio.playSound("son/imperial.wav");
         }
-            
+
     }//goRoom(.)
 
-
-
+   
     /**
      * Print help tips (where you are, exits, commands...)
      */
@@ -180,7 +187,6 @@ public class GameEngine {
         aGui.println("Your command words are :");
         aGui.println(aParser.showCommands());
     }//printHelp()
-
 
     /** 
      * permet de lire les intructions tappées dans un fichier texte
@@ -194,7 +200,7 @@ public class GameEngine {
         try { 
             InputStream vIs = getClass().getResourceAsStream(vFichier);
             vSc = new Scanner( vIs );
-            
+
             while ( vSc.hasNextLine() ) {
                 String vLigne = vSc.nextLine();
                 this.interpretCommand(vLigne);
@@ -206,7 +212,7 @@ public class GameEngine {
         }// catch
 
     }//test
-    
+
     /**
      * permet de quitter le jeu en affichant un message, avec un delais d'attente, en stoppant la musique et en fermant la page
      */
@@ -216,6 +222,6 @@ public class GameEngine {
         this.aAudio.stop();
         aGui.enable(false);
     }
-    
+
     
 }

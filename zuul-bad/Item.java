@@ -1,7 +1,7 @@
 import java.util.*;
 public class Item
 {
-    private String aDescription;
+    
     private String aNom;
     private int aPoids;
     private HashMap<Room, Item> aItemHM;
@@ -12,8 +12,8 @@ public class Item
      * @param int Poind de l'objet
      * @param String desciption de l'objet
      */
-    public Item (final String pNom ,  final int pPoids , final String pDescription){
-        this.aDescription = pDescription;
+    public Item (final String pNom ,  final int pPoids){
+        
         this.aPoids = pPoids;     
         this.aNom = pNom;
     }//constructor
@@ -27,7 +27,7 @@ public class Item
     }//addItem()
     
     public void removeItem (final String pObjetDescrition){
-        this.aItemHM.remove("pObjetDescription");
+        this.aItemHM.remove(pObjetDescrition,this);
         
     }
    
@@ -35,15 +35,7 @@ public class Item
         return this.aItemHM.get(pObjetDescription);
         
     }
-    
-    /**
-     * renvoie une description de l'objet
-     * @return String Une description de l'objet
-     */
-    public String getDescription (){
-        return this.aDescription;
-    }//accesseur description()
-    
+   
     /**
      * renvoie le nom de l'objet
      * @return String Le nom de l'objet
@@ -52,7 +44,9 @@ public class Item
         return this.aNom;
     } //getNom()
     
-    
+    public Item get (final String pItem){
+        return aItemHM.get(pItem);
+    }
     
     /**
      * renvoie le poid de l'objet passé en parametre

@@ -1,4 +1,3 @@
-
 import java.util.*;
 
 public class Player
@@ -6,9 +5,9 @@ public class Player
     private Room aCurrentRoom;
     private String aNom;
     private UserInterface aGui;
-    private int aPoidMAX = 100;
     private Stack<Room> aStackRoom;
-    private Item aItemPorte;
+    private ItemList aInventaire;
+    private int aPoidsMax = 10;
     /**
      * constructeur de Player
      * @param String nom du joueur
@@ -19,9 +18,9 @@ public class Player
         this.aCurrentRoom = pCurrentRoom;
         this.aNom = pNom;
         aStackRoom = new Stack<Room>();
-        
+        this.aInventaire = new ItemList();
     }
-
+    
     /**
      * Constructeur de gui
      * @param UserInterface pGui
@@ -30,7 +29,11 @@ public class Player
     {
         this.aGui = pUserInterface; 
     }
-
+    
+    public ItemList getItemList(){
+        return this.aInventaire;
+    }
+    
     /**
      * retourne la room actuelle
      * @return Room aCurrentRoom
@@ -51,7 +54,9 @@ public class Player
      * manger, pas utile dans ce jeu mais demandé
      */
     public void eat(){
-        aGui.println("You have eaten now and you are not hungry any more.");   
+        if (this.aInventaire.("MagicCookie")){
+            
+        }
     }
 
     /**
@@ -109,41 +114,47 @@ public class Player
         aGui.println("Bienvenue dans le jeu d'aventure StarWars !");
         aGui.println("Ta formation est bientôt terminé jeune Padawan. Récpuère les objets nécéssaires à la création de ton sabre lasert pour enfin devenir un vrai Jedi et finir ce jeu");
         aGui.println("Tappe help si tu as besoin d'aide !");
-        aGui.println("\n");
-        aGui.println(aCurrentRoom.getLongDescription());
+        this.aGui.println(this.aInventaire.getItemList());
+        this.aGui.println(aCurrentRoom.getLongDescription());
         aGui.showImage(aCurrentRoom.getImageName());
     }//printWelcome() 
     
-    /*/**
-     * permet de deposer l'item porté par le joueur dans la piece
-     */
-    /*public void drop(){
-        if (this.aItemPorte != null){
-            aItemPorte.addItem(this.aCurrentRoom);
-            this.aItemPorte = null;
-        } else aGui.println("Vous ne portez pas d'item");
-        
-    }
-    
-    public void take(Command pCommand){
-    
-        if(!pCommand.hasSecondWord()) {
-            aGui.println("Que veux tu prendre ?");
+    public void take (final Command pCommand){
+        String vDescription = pCommand.getSecondWord();
+        Item vItem = this.aCurrentRoom.aItemHM.get(vDescription);
+        if ( vItem == null ) {
+            aGui.println("Cet objet n'est pas la !");
+            return;
+        }
+        if ( this.aInventaire.getPoids()+vItem.getPoids() > this.aPoidsMax){
+            this.aGui.println("Votre inventaire est plein. Il faut lacher des objets pour s'alléger.");            
+        }
+        else if (vItem.getNom().equals("Magic cookie")) {
+            this.aPoidsMax = this.aPoidsMax * 2;
+            this.aGui.println("Votre inventaire vient de doubler !");
         }
         else {
-                String vObjet = pCommand.getSecondWord();
-                Item vItem = this.aCurrentRoom.getItems().getObjet(vObjet);
-                if ( vItem == null){
-                aGui.println(
-                    "Cet objet n'est pas dans cette pièce");
-                }
-                else {                    
-                        this.aItemPorte = vItem;
-                        this.aCurrentRoom.getItems().removeItem(vObjet);
-                        aGui.println ("Vous avez pris " + vItem.getDescription()+" !");
-                    }
-        }
+                this.aInventaire.add(vItem,vDescription);
+                this.aCurrentRoom.aItemHM.remove(vDescription);            
+                aGui.println(this.aCurrentRoom.getItemName());
+                this.aInventaire.addPoids(vItem.getPoids());
+           }
+        this.aGui.println(this.aInventaire.getItemList());
+        this.aGui.println(this.aCurrentRoom.getLongDescription());
     }
-        */
+    
+    public void drop (final Command pCommand){
+        String vDescription = pCommand.getSecondWord();
+        Item vItem = this.aInventaire.aItemListHM.get(vDescription);
+        if ( vItem == null) aGui.println("Vous ne portez pas cet objet");
+        else {
+            this.aInventaire.remove(vItem, vDescription);
+            this.aCurrentRoom.addItem(vDescription, vItem);         
+            this.aInventaire.rmPoids(vItem.getPoids());
+        }
+        this.aGui.println(this.aInventaire.getItemList());
+        this.aGui.println(this.aCurrentRoom.getLongDescription());
+    }
+    
+    
 }
-

@@ -30,6 +30,7 @@ public class UserInterface implements ActionListener
     private JButton    aButtonDown;
     private JButton    aButtonJoin;
     private JButton    aButtonBack;
+    private JButton    aButtonInventory;
     
     
     
@@ -119,6 +120,7 @@ public class UserInterface implements ActionListener
         this.aButtonLook = new JButton("look");
         this.aButtonJoin = new JButton("join the force");
         this.aButtonBack = new JButton("back");
+        this.aButtonInventory = new JButton("inventaire");
         
         //création des boutons étages
         this.aButtonUp = new JButton("up");
@@ -139,6 +141,7 @@ public class UserInterface implements ActionListener
         vPanelAction.add(this.aButtonLook);
         vPanelAction.add(this.aButtonJoin);
         vPanelAction.add(this.aButtonBack);
+        vPanelAction.add(this.aButtonInventory);
         
         vPanel.add(vPanelAction, BorderLayout.WEST);
         
@@ -175,6 +178,7 @@ public class UserInterface implements ActionListener
         this.aButtonLook.addActionListener(this);
         this.aButtonBack.addActionListener(this);
         this.aButtonJoin.addActionListener(this);
+        this.aButtonInventory.addActionListener(this);
 
         this.aMyFrame.pack();
         this.aMyFrame.setVisible( true );
@@ -216,6 +220,9 @@ public class UserInterface implements ActionListener
         if (vSource == aButtonJoin){
             aEngine.interpretCommand("join_the_force");
             //aMyFrame.dispose();
+        }
+        if (vSource == aButtonInventory){
+            aEngine.interpretCommand("inventaire");
         }
     }
     /**

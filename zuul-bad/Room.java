@@ -12,7 +12,7 @@ import java.util.Iterator;
 public class Room
 {
     private HashMap <String , Room>  aSortieHM;
-    private HashMap <String , Item> aItemHM;
+    public HashMap <String , Item> aItemHM;
     private String aDescription;
     private String aImageName;
 
@@ -115,5 +115,9 @@ public class Room
      */
         public String getImageName(){
         return this.aImageName;
+    }
+    
+    public HashMap getItemHM(){
+        return this.aItemHM;
     }
 } // Room
