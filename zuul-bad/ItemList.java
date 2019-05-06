@@ -55,7 +55,7 @@ public class ItemList
     }
     
     public String showPoids(){
-        String vPoids = "Le poids de votre inventaire est actuellement de : " + this.getPoids() + "\n" + "Le poids maximum est de 10";
+        String vPoids = "Le poids de votre inventaire est actuellement de : " + this.getPoids();
         return vPoids;
     }
 }

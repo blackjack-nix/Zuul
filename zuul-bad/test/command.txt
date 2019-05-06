@@ -1,9 +1,25 @@
+take Cellule
 go nord
-go west
-go est
-go sud
-help
-eat
-look
+go ouest
+drop Cellule
+take MagicCookie
+eat MagicCookie
+take Verre
+take Cellule
+go nord
+take Lentille
 back
-join_the_force
+back
+go nord
+take Emetteur
+go bas
+take Crystal
+back
+back
+go est
+go nord
+drop Cellule
+drop Verre
+drop Emetteur
+drop Crystal
+drop Lentille

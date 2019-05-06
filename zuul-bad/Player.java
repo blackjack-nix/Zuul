@@ -7,7 +7,7 @@ public class Player
     private UserInterface aGui;
     private Stack<Room> aStackRoom;
     private ItemList aInventaire;
-    private int aPoidsMax = 10;
+    private int aPoidsMax = 15;
     /**
      * constructeur de Player
      * @param String nom du joueur
@@ -63,7 +63,9 @@ public class Player
         if ( pCommand.getSecondWord().equals("MagicCookie") && this.aInventaire.aItemListHM.containsValue(vItem)){
             this.aPoidsMax = this.aPoidsMax * 2;
             aGui.println("Vous avez mangé un cookie magique. Votre inventaire vient de doubler !");
+            aGui.println(this.aInventaire.showPoids() + "\n Le poids maximal est de " + this.aPoidsMax);
             this.aInventaire.remove(vItem, vDescription);
+            this.aInventaire.rmPoids(10);
         } else this.aGui.println("Vous ne pouvez pas manger cela !");          
     }
 
@@ -127,6 +129,10 @@ public class Player
         aGui.showImage(aCurrentRoom.getImageName());
     }//printWelcome() 
 
+    public int getPoidsMax(){
+        return this.aPoidsMax;
+    }
+    
     public void take (final Command pCommand){
         String vDescription = pCommand.getSecondWord();
         Item vItem = this.aCurrentRoom.aItemHM.get(vDescription);

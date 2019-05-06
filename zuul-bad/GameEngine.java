@@ -8,7 +8,7 @@ public class GameEngine {
     private HashMap<String,Room> aRooms;
     private Player aPlayer;
     private Audio aAudio;
-    private boolean aDialoguevOutside;
+    private int aTimer = 30;
 
 
     /**
@@ -79,9 +79,13 @@ public class GameEngine {
         vCombat.setExits("ouest",vCouloir);
 
         vHolocrons.setExits("sud",vFontaine);//salle des holocrons
+        vHolocrons.setExits("est",vHall);//salle des holocrons
 
+        
         vHall.setExits("bas",vConseil);//hall des jedi
         vHall.setExits("sud",vCouloir);
+        vHall.setExits("ouest",vHolocrons);
+
 
         vArchive.setExits("sud",vCombat);//archive
         //vArchive.setExits("est",vArmurerie);
@@ -167,7 +171,13 @@ public class GameEngine {
             } else {
                 aPlayer.getStackRoom().push(aPlayer.getCurrentRoom());
                 aPlayer.changeRoom(vNextRoom);
-
+                if (this.aTimer == 0){
+                    this.aGui.println("Vous vous etes trop déplacés, vous avez perdu");
+                    join_the_force();
+                } else {
+                    this.aTimer -= 1;
+                    this.aGui.println("Nombre de coups réstant : " + this.aTimer);
+                }
             }
         }
         if (this.aAudio.isFinished()){
