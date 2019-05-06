@@ -13,14 +13,14 @@ public class Player
      * @param String nom du joueur
      * @param Room room de départ
      */
-    
+
     public Player (final String pNom , final Room pCurrentRoom ){
         this.aCurrentRoom = pCurrentRoom;
         this.aNom = pNom;
         aStackRoom = new Stack<Room>();
         this.aInventaire = new ItemList();
     }
-    
+
     /**
      * Constructeur de gui
      * @param UserInterface pGui
@@ -29,11 +29,11 @@ public class Player
     {
         this.aGui = pUserInterface; 
     }
-    
+
     public ItemList getItemList(){
         return this.aInventaire;
     }
-    
+
     /**
      * retourne la room actuelle
      * @return Room aCurrentRoom
@@ -53,10 +53,18 @@ public class Player
     /**
      * manger, pas utile dans ce jeu mais demandé
      */
-    public void eat(){
-        if (this.aInventaire.("MagicCookie")){
-            
+    public void eat( final Command pCommand){
+        String vDescription = pCommand.getSecondWord();
+        Item vItem = this.aInventaire.aItemListHM.get(vDescription);
+        if (vItem == null) {
+            aGui.println("Eat quoi ?");
+            return;
         }
+        if ( pCommand.getSecondWord().equals("MagicCookie") && this.aInventaire.aItemListHM.containsValue(vItem)){
+            this.aPoidsMax = this.aPoidsMax * 2;
+            aGui.println("Vous avez mangé un cookie magique. Votre inventaire vient de doubler !");
+            this.aInventaire.remove(vItem, vDescription);
+        } else this.aGui.println("Vous ne pouvez pas manger cela !");          
     }
 
     /**
@@ -118,7 +126,7 @@ public class Player
         this.aGui.println(aCurrentRoom.getLongDescription());
         aGui.showImage(aCurrentRoom.getImageName());
     }//printWelcome() 
-    
+
     public void take (final Command pCommand){
         String vDescription = pCommand.getSecondWord();
         Item vItem = this.aCurrentRoom.aItemHM.get(vDescription);
@@ -129,20 +137,16 @@ public class Player
         if ( this.aInventaire.getPoids()+vItem.getPoids() > this.aPoidsMax){
             this.aGui.println("Votre inventaire est plein. Il faut lacher des objets pour s'alléger.");            
         }
-        else if (vItem.getNom().equals("Magic cookie")) {
-            this.aPoidsMax = this.aPoidsMax * 2;
-            this.aGui.println("Votre inventaire vient de doubler !");
-        }
         else {
-                this.aInventaire.add(vItem,vDescription);
-                this.aCurrentRoom.aItemHM.remove(vDescription);            
-                aGui.println(this.aCurrentRoom.getItemName());
-                this.aInventaire.addPoids(vItem.getPoids());
-           }
+            this.aInventaire.add(vItem,vDescription);
+            this.aCurrentRoom.aItemHM.remove(vDescription);            
+            aGui.println("Objets présents dans la pièce : "+ this.aCurrentRoom.getItemName());
+            this.aInventaire.addPoids(vItem.getPoids());
+        }
         this.aGui.println(this.aInventaire.getItemList());
         this.aGui.println(this.aCurrentRoom.getLongDescription());
     }
-    
+
     public void drop (final Command pCommand){
         String vDescription = pCommand.getSecondWord();
         Item vItem = this.aInventaire.aItemListHM.get(vDescription);
@@ -155,6 +159,5 @@ public class Player
         this.aGui.println(this.aInventaire.getItemList());
         this.aGui.println(this.aCurrentRoom.getLongDescription());
     }
-    
-    
+
 }

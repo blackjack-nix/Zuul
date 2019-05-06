@@ -43,7 +43,7 @@ public class GameEngine {
         Item vEmetteur = new Item("Emetteur",5);
         Item vLentille = new Item("Lentille",5);
         Item vVerre = new Item("Verre",5);
-        Item vMagicCookie = new Item("MagicCookie",0);
+        Item vMagicCookie = new Item("MagicCookie",10);
 
         // ## déclaration des rooms ##
         Room vOutside = new Room("devant l'entrée du temple","Image/entree_gardee.jpg");
@@ -128,7 +128,7 @@ public class GameEngine {
                 join_the_force();
         }
         else if (vCommandWord.equals("look")) aPlayer.look();
-        else if (vCommandWord.equals("eat")) aPlayer.eat();
+        else if (vCommandWord.equals("eat")) aPlayer.eat(vCommand);
         else if (vCommandWord.equals("back"))aPlayer.back();
         else if (vCommandWord.equals("test")){
             if (vCommand.hasSecondWord())
