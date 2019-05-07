@@ -1,5 +1,6 @@
-import java.util.*;
-import java.io.*;
+import java.util.HashMap;
+import java.util.Scanner;
+import java.io.InputStream;
 
 public class GameEngine {
     // attributs
@@ -32,30 +33,34 @@ public class GameEngine {
         this.aPlayer.setGui(aGui);
         aPlayer.printWelcome();
     }
-
+    
+    
     /**
      * insitialise les rooms, items, sorties et la piece courante
      */
     private void createRooms(){
-        // ## déclaration des items
+        // ## déclaration des items ##
         Item vKyber = new Item("Crystal",5);
         Item vCellule = new Item("Cellule",5);
         Item vEmetteur = new Item("Emetteur",5);
         Item vLentille = new Item("Lentille",5);
         Item vVerre = new Item("Verre",5);
         Item vMagicCookie = new Item("MagicCookie",10);
+        
+        
 
         // ## déclaration des rooms ##
         Room vOutside = new Room("devant l'entrée du temple","Image/entree_gardee.jpg");
         Room vCouloir = new Room("dans le couloir principal","Image/couloir.jpg");
         Room vFontaine = new Room("dans la salle de la fontaine","Image/fontaine.jpg");
-        Room vCombat = new Room("dans la salle d'entrainement aux arts Jedi","Image/kanan_jarrus.JPG");
+        Room vCombat = new Room("dans la salle d'entrainement aux arts Jedi","Image/jedi.jpeg");
         Room vHolocrons = new Room("dans la salle des holocrons","Image/holocrons.jpg");
         Room vHall = new Room("dans le hall des Jedi","Image/hall.jpg");
         Room vArchive = new Room("dans la salle des archives Jedi","Image/bibliotheque.jpg");
         Room vArmurerie = new Room("dans l'armurerie secrète du temple","Image/machine.jpg");
         Room vConseil = new Room("dans la salle du conseil Jedi","Image/conseil_full.jpg");
 
+        
         //attribution des items
         vConseil.addItem("Crystal",vKyber);
         vOutside.addItem("Cellule",vCellule);
@@ -78,7 +83,7 @@ public class GameEngine {
         vCombat.setExits("nord",vArchive);//salle de combat
         vCombat.setExits("ouest",vCouloir);
 
-        vHolocrons.setExits("sud",vFontaine);//salle des holocrons
+        vHolocrons.setExits("sud",vFontaine);//salle des holocrons trap door
         vHolocrons.setExits("est",vHall);//salle des holocrons
 
         
@@ -88,11 +93,20 @@ public class GameEngine {
 
 
         vArchive.setExits("sud",vCombat);//archive
-        //vArchive.setExits("est",vArmurerie);
+        vArchive.setExits("est",vArmurerie);
 
-        //vArmurerie.setExits("ouest",vArchive); // salle bloquée pour le moment
+        vArmurerie.setExits("ouest",vArchive); // salle bloquée pour le moment
 
         vConseil.setExits("up",vHall);
+        
+        // ## déclaration des doors ##
+        Door vLockedDoor = new Door(true,false,false);
+        Door vTrapDoorFontaine = new Door(false,true,true);
+        Door vTrapDoorHolocrons = new Door(false,true,false);
+        
+        vArchive.addDoor("est", vLockedDoor);
+        vFontaine.addDoor("nord",vTrapDoorFontaine);
+        vHolocrons.addDoor("sud",vTrapDoorHolocrons);
 
         String vPrenom = javax.swing.JOptionPane.showInputDialog( "Padawan, quel est ton prenom ?" );
         this.aPlayer = new Player (vPrenom,vOutside);
@@ -168,17 +182,42 @@ public class GameEngine {
 
             if (vNextRoom == null){
                 aGui.println("There is no door !");
-            } else {
-                aPlayer.getStackRoom().push(aPlayer.getCurrentRoom());
-                aPlayer.changeRoom(vNextRoom);
-                if (this.aTimer == 0){
-                    this.aGui.println("Vous vous etes trop déplacés, vous avez perdu");
-                    join_the_force();
-                } else {
-                    this.aTimer -= 1;
-                    this.aGui.println("Nombre de coups réstant : " + this.aTimer);
+                return;
+            }
+            
+            Door vDoor = this.aPlayer.getCurrentRoom().getDoor(vDirection);
+            if ( vDoor != null){ // si c'est une porte spéciale
+                if (vDoor.isTrap()){ // si c'est une trap
+                    if (! vDoor.canGo()){
+                        aGui.println("It' a trap ! Vous ne pouvez pas passer par une porté piégée");
+                        return;
+                    }
+                    this.aPlayer.getStackRoom().clear();
+                }
+                else if (vDoor.isLocked()){
+                    if (this.aPlayer.getItemList().aItemListHM.containsKey("Verre")){
+                        vDoor.setLocked(false);
+                        aGui.println("Vous avez trouvé l'armurerie secrète");
+                    }
+                    else {
+                        aGui.println("Vous ne pouvez pas ouvrir cette porte ...");
+                        return;
+                    }
                 }
             }
+            
+            
+            
+            aPlayer.getStackRoom().push(aPlayer.getCurrentRoom());
+            aPlayer.changeRoom(vNextRoom);
+            if (this.aTimer == 0){
+                this.aGui.println("Vous vous etes trop déplacés, vous avez perdu");
+                join_the_force();
+            } else {
+                this.aTimer -= 1;
+                this.aGui.println("Nombre de coups réstant : " + this.aTimer);
+            }
+            
         }
         if (this.aAudio.isFinished()){
             this.aAudio.playSound("son/imperial.wav");

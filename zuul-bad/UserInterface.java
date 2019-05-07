@@ -24,7 +24,6 @@ public class UserInterface implements ActionListener
     private JButton    aButtonSouth;
     private JButton    aButtonWest;
     private JButton    aButtonEast;
-    private JButton    aButtonEat;
     private JButton    aButtonLook;
     private JButton    aButtonUp;
     private JButton    aButtonDown;
@@ -116,7 +115,6 @@ public class UserInterface implements ActionListener
         this.aButtonEast = new JButton("go est");
         
         //création des boutons d'action
-        this.aButtonEat = new JButton("eat");
         this.aButtonLook = new JButton("look");
         this.aButtonJoin = new JButton("join the force");
         this.aButtonBack = new JButton("back");
@@ -137,7 +135,6 @@ public class UserInterface implements ActionListener
         //panel gauche
         
         JPanel vPanelAction = new JPanel();
-        vPanelAction.add(this.aButtonEat);
         vPanelAction.add(this.aButtonLook);
         vPanelAction.add(this.aButtonJoin);
         vPanelAction.add(this.aButtonBack);
@@ -174,7 +171,6 @@ public class UserInterface implements ActionListener
         this.aButtonSouth.addActionListener(this);
         this.aButtonWest.addActionListener(this);
         this.aButtonEast.addActionListener(this);
-        this.aButtonEat.addActionListener(this);
         this.aButtonLook.addActionListener(this);
         this.aButtonBack.addActionListener(this);
         this.aButtonJoin.addActionListener(this);
@@ -207,9 +203,6 @@ public class UserInterface implements ActionListener
         }
         if (vSource == aButtonEast) {
             aEngine.interpretCommand("go est");
-        }
-        if (vSource == aButtonEat) {
-            aEngine.interpretCommand("eat");
         }
         if (vSource == aButtonLook) {
             aEngine.interpretCommand("look");

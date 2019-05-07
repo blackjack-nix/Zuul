@@ -13,6 +13,7 @@ public class Room
 {
     private HashMap <String , Room>  aSortieHM;
     public HashMap <String , Item> aItemHM;
+    private HashMap<String , Door> aDoorHM;
     private String aDescription;
     private String aImageName;
 
@@ -21,11 +22,20 @@ public class Room
      */
     public Room (final String pDescription , final String pImage){
         this.aDescription = pDescription ;
+        aDoorHM = new HashMap<String,Door>();
         aSortieHM = new HashMap <String , Room> ();
         aItemHM = new HashMap <String, Item>();
         aImageName = pImage;
     }//Room(.)
-
+    
+    public void addDoor (final String pDirection, final Door pDoor){
+        this.aDoorHM.put(pDirection,pDoor);
+    }
+    
+    public Door getDoor(final String pDirection){
+        return this.aDoorHM.get(pDirection);
+    }
+    
     /**
      * return a string of the room description
      * @return  Return a String description of the room
@@ -42,7 +52,10 @@ public class Room
     public void setExits (final String pDirection, final Room pRoom){
         aSortieHM.put(pDirection,pRoom);
     }//setExit(....)
-
+    public HashMap getRooms(){
+        
+        return this.aSortieHM;
+    }
     /**
      * Permet d'ajouter un objet a la room
      * @param String description de l'objet
@@ -55,6 +68,8 @@ public class Room
     public Item getItems(){
         return aItemHM.get(this);
     }
+    
+    
     
     /**
      * Return the exit of the room

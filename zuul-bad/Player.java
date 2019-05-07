@@ -1,4 +1,6 @@
-import java.util.*;
+import java.util.HashMap;
+import java.util.Stack;
+
 
 public class Player
 {
@@ -89,7 +91,13 @@ public class Player
      */
 
     public void back(){
-        if ( !this.aStackRoom.empty()){
+        
+            
+            this.aStackRoom.removeAllElements();
+            aGui.println("Cette sortie est piégée ! Sortez d'une autre manière");
+            
+        
+        if (! this.aStackRoom.empty()){
             this.aCurrentRoom = this.aStackRoom.pop();
             changeRoom(aCurrentRoom);
         } else aGui.println("Vous ne pouvez pas aller en arrière");
