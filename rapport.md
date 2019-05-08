@@ -34,10 +34,9 @@ Un jeune Jedi doit passer par une phase d'apprentissage. Il devient alors un Pad
 - Le verre d'eau : Un garde vous demander surement un verre d'eau. Vous pourrez remplir ce verre dans la salle de la fontaine.
 
 ### Détail des personnages :
-- Kanan Jarrus : Ce grand maitre guerrier est le résponsable de votre formation. C'est lui qui vous mettra sur la piste du premier objet. De plus, vous commancerez le jeu dans la salle de combat avec lui.
 - Le conseil Jedi : Haute autorité du temple, le conseil Jedi vous a mis à l'épereuve pour finir votre formation au temple. Il vous faudra passer un test afin qu'il vous donne un cristal de Kyber.
 - Garde d'élite : Ce garde d'élite, choisis sur au vollet, garde l'entrée principale du temple. Il ne peut quitter son poste, même pour prendre une pause et boire un verre.
-- Maitre Cin Drallig : Ce sage maître Jedi médite souvent proche des holocrons.
+
 
 ## 1.G) Situations gagnantes et perdantes
 
@@ -53,12 +52,11 @@ Une fois tous les objets réunis, une salle se débloquera. Une fois dedans, tu 
 ### Situations perdantes :
 
 Pour perdre dans le jeu, il existe plusieurs solutions :
-	- fin du temps de 10 minutes qui montrerais que tu n'es pas près;
-	- erreur lors de l'enigme qui montererait que tu n'es pas un Jedi;
+	- trop de mouvements effécutés qui montrerais que tu n'es pas près;
+
 
 ## 1.H) Enigme, mini-jeux, combat
-Il n'y a pas encore d'enigmes inplémentées dans le jeu mais voici l'enigme que le conseil jedi posera :
-"Qu'est-ce qui détermine la capacité d'un être vivant à ressentir la force ?" Solution : les midicloriens
+Il n'y a pas d'enigmes mais des mécanismes avec les PNJ pour récupere les objets.
 
 ## 1.I) Commantaires
 
@@ -402,27 +400,263 @@ Pour la méthode `drop`, on créer un attribut Item qui correspond à l'item que
 On peut faire une HashMap inventaire qui contiendra les objets pris par le joueur dans la classe Player car c'est elle qui gère take, drop et les objets protés. On passe à take une command dont on recupere le second mot, avant de récuperer l'objet associé à cette description.
 
 ### Exercice 7.31.1 :
-On creer une nouvelle classe avec deux attributs : une HashMap qui représente les items portés par le joueur et le poids total de l'inventaire. On ajoute des fonctions pour ajouter et enlever les items de la HashMap, ainsi que differents accesseurs pour récuperer la description de l'inventaire, le poids ... On modifie alors player pour que les methodes take et drop remplissent ou vident la hashMap. On ajoute aussi la possiblilité d'afficher l'inventaire.
+On creer une nouvelle classe avec deux attributs : une HashMap qui représente les items portés par le joueur et le poids total de l'inventaire. On ajoute des fonctions pour ajouter et enlever les items de la HashMap, ainsi que differents accesseurs pour récuperer la description de l'inventaire, le poids ... On modifie alors player pour que les methodes take et drop remplissent ou vident la hashMap. On ajoute aussi la possiblilité d'afficher l'inventaire. Voici la methode take modifiée :
+```java
+public void take (final Command pCommand){
+        String vDescription = pCommand.getSecondWord();
+        Item vItem = this.aCurrentRoom.getItemHM(vDescription);
+        if ( vItem == null ) {
+            this.aGui.println("Cet objet n'est pas la !");
+            return;
+        }
+        if ( this.aInventaire.getPoids()+vItem.getPoids() > this.aPoidsMax){
+            this.aGui.println("Votre inventaire est plein. Il faut lacher des objets pour s'alléger.");            
+        }
+        else {
+            this.aInventaire.add(vItem,vDescription);
+            this.aCurrentRoom.rmItemHM(vDescription);            
+            this.aGui.println("Objets présents dans la pièce : "+ this.aCurrentRoom.getItemString());
+            this.aInventaire.addPoids(vItem.getPoids());
+        }
+        this.aGui.println(this.aInventaire.getItemList());
+        this.aGui.println(this.aCurrentRoom.getLongDescription());
+    }
+```
 
 ### Exercice 7.32 :
 On creer un attribut aPoidsMax dans Player, que l'on initialisie directement à sa valeur. On modifie le constructeur d'item pour que chaque item ai son poids. Dans take, on ajoute un test pour verifier si le poids porté plus le poids de l'item que l'on veut prendre est inferieur au poids max. 
 
 ### Exercice 7.33 : 
-On ajoute une commande (comme précedemant, dans 
+On ajoute une commande (comme avant). Dans cette commande, on affiche la String renvoyé par une methode de item list qui donne la liste des objets de l'inventaire et le poids total. 
 
+### Exercice 7.34 :
+On creer un nouvel item, magiccookie, que l'on place dans une room. On modifie ensuite la methode eat comme take et drop pour pouvoir prendre un second mot. On recupere ensuite l'item correspondant dans la HashMap d'item. Si il est null, c'est que soit l'item n'existe pas soit il n'est pas dans cette salle. Dans ce cas, on return. Sinon, on le compare à l'objet MagicCookie et alors, on peut doubler l'inventaire avant de detruire le makicCookie. Voici le résultat :
+```java
+public void eat( final Command pCommand){
+        String vDescription = pCommand.getSecondWord();
+        Item vItem = this.aInventaire.getItem(vDescription);
+        if (vItem == null) {
+            this.aGui.println("Eat quoi ?");
+            return;
+        }
+        if ( vDescription.equals("MagicCookie") && this.aInventaire.getItemListHM().containsValue(vItem)){
+            this.aPoidsMax = this.aPoidsMax * 2;
+            this.aGui.println("Vous avez mangé un cookie magique. Votre inventaire vient de doubler !");
+            this.aGui.println(this.aInventaire.showPoids() + "\n Le poids maximal est de " + this.aPoidsMax);
+            this.aInventaire.remove(vItem, vDescription);
+            this.aInventaire.rmPoids(vItem.getPoids());
+        } else this.aGui.println("Vous ne pouvez pas manger cela !");          
+    }
+```
+
+### Exercice 7.34.1 : 
+on remet à jour le fichier test en ajoutant la prise d'un magic cookie notament.
+
+### Exercice 7.32.2 :
+On regenere la javadoc avec les deux commandes deja détaillées plus haut.
+
+### Exercice 7.42 : 
+On ajoute une limite sur le nombre de déplacement possible du joueur. On implémente cela avec un attribut de type entier qui vaut 30 par exemple. A chaque fois qu'un "ChangeRoom" se passe bien, on enleve un si il n'est pas nul, et si il est nul, alors on arrete le jeu. On ne met cette fonctionalité dans Player évidamnt car chaque player a un nombre de déplacement personel. De plus, pour que cela fonctionne avec Back, il faut le mettre dans changeRoom.
+
+### Exercice 7.42.2 :
+J'ai décidé de ne pas toucher à l'interface graphique donc cet exercice n'est pas traité.
+
+### Exercice 7.43 : 
+Pour cet exercice, on creer une nouvelle classe Door, car on traitera en meme temps les TrapDoors et les LockedDoor. Cette classe comporte 3 attributs qui sont des boolean qui correspondent à isLocked, isStrap, et isGoodDirection (dans le cas d'une trapdoor uniquement). On creer alors des doors aux endrois voulu dans le game engine comme pour les objets par exemple. On fait aussi une hashMap afin d'avoir accès facilement aux doors depuis la room. 
+```java
+public class Door
+{
+    // ## Attributs ##
+    private boolean isLocked;
+    private boolean isTrap;
+    private boolean isGoodGirection;
+    
+    
+    // ## Constructor ## 
+    
+    /**
+     * constructeur naturel
+     * @param pLocked boolean qui dit si la door est locked
+     * @param pTrap boolean qui dit si la door est trap
+     * @param pGoodDirection (si trop only) boolean qui dit si bonne direction de passage
+     */
+    public Door (final boolean pLocked , final boolean pTrap , final boolean pGoodDirection){
+        this.isLocked = pLocked;
+        this.isTrap = pTrap;
+        this.isGoodGirection = pGoodDirection;        
+    }
+    
+    
+    // ## Accesseur ##
+    
+    /**
+     * Accesseur de lock
+     * @return boolean si la door est locked
+     */
+    public boolean isLocked(){
+        return this.isLocked;
+    }
+    
+    /**
+     * Accesseur de trap
+     * @return boolean si la door est trap
+     */
+    public boolean isTrap(){
+        return this.isTrap;
+    }
+    
+    /**
+     * Accesseur de cango
+     * @return boolean si la door trap peut etre franchie dans ce sens
+     */
+    public boolean canGo(){
+        return this.isGoodGirection;
+    }
+    
+    
+    // ## Modificateurs ##
+    
+    /**
+     * setteur de locked. Permet de deverouiller une piece
+     * @param pLocked permet de debloquer une door 
+     */
+    public void setLocked (final boolean pLocked){
+        this.isLocked = pLocked;
+    }
+    
+    /**
+     * setteur de cango
+     * @param pGoodDirection boolean qui permet de set gooddirection
+     */
+    public void setCanGo(final boolean pGoodDirection){
+        this.isGoodGirection = pGoodDirection;
+    }
+}
+```
+On modifie aussi le goRoom pour interagir avec des doors. Une trap door ne peut etre franchie que dans un sens, et la command Back ne doit pas pouvoir marcher. Pour se faire, on verifie à chaque fois dans quel cas on est, puis on accepte ou non e changeRoom. Pour la LockedDoor, il faut verifier si la condition pour la dverouiller est remplie. Dans mon cas, il s'agit d'avoir tous les items sur sois. Voici la méthode goROom modifiée :
+```java
+private void goRoom ( final Command pCommand){
+
+        if (!  pCommand.hasSecondWord()){
+            aGui.println("Go where ?");
+            return;
+        } //mot pas bon apres le go
+        else {
+            Room vNextRoom = null;
+            String vDirection = pCommand.getSecondWord();
+            vNextRoom = aPlayer.getCurrentRoom().getExit(vDirection);
+
+            if (vNextRoom == null){
+                aGui.println("There is no door !");
+                return;
+            }
+            this.aPlayer.getStackRoom().push(this.aPlayer.getCurrentRoom());
+            Door vDoor = this.aPlayer.getCurrentRoom().getDoor(vDirection);
+            if ( vDoor != null){ // si c'est une porte spéciale
+                if (vDoor.isTrap()){ // si c'est une trap
+                    if (! vDoor.canGo()){
+                        this.aGui.println("It' a trap ! Vous ne pouvez pas passer par une porté piégée");
+                        return;
+                    }
+                    else {
+                        this.aPlayer.clearStack();
+                    }
+                }
+                else if (vDoor.isLocked()){
+                    HashMap vHMobj = this.aPlayer.getInventaire().getItemListHM();//hash map des objets de l'inventaire pour aller plus vite
+                    if (vHMobj.containsKey("Crystal") && vHMobj.containsKey("Cellule") && vHMobj.containsKey("Emetteur") && vHMobj.containsKey("Lentille")){
+                        vDoor.setLocked(false);
+                        this.aGui.println("Vous avez trouvé l'armurerie secrète");
+                    }
+                    else {
+                        this.aGui.println("Vous ne pouvez pas ouvrir cette porte ...");
+                        return;
+                    }
+                }
+            }
+
+                
+            this.aPlayer.changeRoom(vNextRoom);
+            
+
+        }
+        if (this.aAudio.isFinished()){
+            this.aAudio.playSound("son/imperial.wav");
+        }
+
+    }//goRoom(.)
+
+```
+ 
+### Exercice 7.44 : 
+Je n'ai pas réussi à implémenter le beamer. J'ai creer la classe correspondante mais pas le mécanisme.
+
+### Exercice 7.45 : 
+Voir exercice 7.43.
+
+### Exercice 7.45.1 : 
+On regenere les fichiers test, notemant avec la possiblilté de gagner qui a été implémenter. 
+
+### Exercice 7.45.2 : 
+On regener la javadoc avec les deux commandes comme précedement.
+
+### Exercice 7.46 à 7.48 n'ont pas été traité à cause du temps
+
+### Exercice 7.48 : 
+Pour cet exercice, on va se calcer sur l'implémentation des Items dans le jeu. On va donc creer une class PNJ avec trois attributs : un item qui correspond à l'item que va drop le PNJ une fois qu'on lui a parlé, un nom qui sera le nom affiché à l'ecran et qui servira à la trouver dans la future HashMap, et une Room qui correspond à la room dans lequelle il se trouve. On ajoutes les 3 accesseurs. Dans la classe Room, on creer un attribut HashMap de PNJ. ON ajoute les methodes pour modifier la HashMap. Dans GameEngine, on creer les PNJ, qu'on attribut ensuite à des rooms grace à la hashmap. On ajoute ensuite dans Player la methode pour parler avec les PNJ : 
+```java
+
+public void parler (final Command pCommand){
+        String vS = pCommand.getSecondWord();
+        PNJ vPNG = this.aCurrentRoom.getPNJ(vS);
+        if (vPNG == null){
+            this.aGui.println("Cette personne n'est pas ici");
+            return;
+        }
+
+        if (vPNG == this.aCurrentRoom.getPNJ("Jedi")){
+            if (!aParleJedi) {
+                this.aGui.println("Bonjour jeune Padawan. Pour contruire ton sabre, tu aura besoin d'un crystal de Kyber. Je sens que tu as un don. Tiens, prends ton crystal. \n");
+                this.aCurrentRoom.addItem("Crystal",vPNG.getItem());
+                this.aGui.println(this.aCurrentRoom.getLongDescription());
+                this.aParleJedi = true;
+            } else {
+                this.aGui.println("Tu es prometteur, jeune Padawan, mais tu as la memoire bien courte ...");
+            }
+            return;
+        }
+
+        if (vPNG == this.aCurrentRoom.getPNJ("Garde")){
+            if (! this.aInventaire.getItemListHM().containsKey("Verre")){
+                this.aGui.println("Va me chercher une verre d'eau je meurs de soif");   
+                return;
+            }
+            if (!aParleGarde){
+                this.aGui.println("Merci garcon. Tiens prend cette cellule d'energie que j'ai trouvé sur un droid");
+                this.aCurrentRoom.addItem("Cellule",vPNG.getItem());
+                this.aInventaire.rmPoids(this.aInventaire.getItem("Verre").getPoids());
+                this.aInventaire.remove(this.aInventaire.getItem("Verre"), "Verre");
+                this.aParleGarde = true;
+            } else {
+                this.aGui.println("Hey ! que fais tu la ! tu n'a rien à faire ici !");
+            }
+        }
+    }
+```
 
 
 ### Fonctionnalitée supplémentaire :
-J'ai ajouté de la musique à mon jeu, avec la classe audio qui me permet de gerer le lancement ou l'arret de la lecture d'un fichier audio en .wav.
+J'ai ajouté de la musique à mon jeu, avec la classe audio qui me permet de gérer le lancement ou l'arrêt de la lecture d'un fichier audio en .wav.
 J'ai ajouté une fonctionnalité permettant de demander le nom du joueur au début de la partie.
 
 ## 3) Mode d'emploi
-Apres avoir téléchargé l'archive ci-jointe, ouvrez BlueJ. dans Files, cliquez sur Open jar/zip project et séléctionnez l'archive. Sur la case Game, clique droit, new game(). Un carré rouge apparait alors en bas à gauche de l'écran. Clique droit et void play() pour lancer le jeu. Les commandes valides sont go + direction, help, quit, eat, look.
-
+Apres avoir téléchargé l'archive ci-jointe, ouvrez BlueJ. dans Files, cliquez sur Open jar/zip project et séléctionnez l'archive. Sur la case Game, clique droit, new game(). Un carré rouge apparait alors en bas à gauche de l'écran. Clique droit et void play() pour lancer le jeu.
 ## 4) Déclaration anti-plagiat
 
 ### Code :
 Tout le code non fourni par le livre Zuul-Bad et donné dans les PDF à été écrit par moi-même.
+La classe qui gere le son à été réalisée en collaboration avec Quentin Martins ainsi qu'internet
+Le site unternet est un template HTML/CSS/JavaScript remanié par moi meme afin de correspondre à mes besoins
 
 ### Son :
 La bande son du jeu qui n'est pas encore implémenté : 	 www.youtube.com/watch?v=D0ZQPqeJkk, de Coltsrock56 le 21 juil. 2012

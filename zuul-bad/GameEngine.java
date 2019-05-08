@@ -16,7 +16,6 @@ public class GameEngine {
     private HashMap<String,Room> aRooms;
     private Player aPlayer;
     private Audio aAudio;
-    private int aTimer = 30;
 
     // ## Constructeur(s) ##
     /**
@@ -55,8 +54,8 @@ public class GameEngine {
         Room vConseil = new Room("dans la salle du conseil Jedi","Image/conseil.jpg");
 
         //attribution des items
-        vConseil.addItem("Crystal",vKyber);
-        vOutside.addItem("Cellule",vCellule);
+        //vConseil.addItem("Crystal",vKyber);
+        //vOutside.addItem("Cellule",vCellule);
         vHall.addItem("Emetteur", vEmetteur);
         vHolocrons.addItem("Lentille",vLentille);
         vFontaine.addItem("Verre",vVerre);
@@ -92,13 +91,19 @@ public class GameEngine {
 
         // ## déclaration des doors ##
         Door vLockedDoor = new Door(true,false,false);
-        Door vTrapDoorFontaine = new Door(false,true,true);
-        Door vTrapDoorHolocrons = new Door(false,true,false);
+        Door vTrapDoorFontaine = new Door(false,true,false);
+        Door vTrapDoorCouloir = new Door(false,true,true);
 
         // ## Attribution des doors
         vArchive.addDoor("est", vLockedDoor);
-        vFontaine.addDoor("nord",vTrapDoorFontaine);
-        vHolocrons.addDoor("sud",vTrapDoorHolocrons);
+        vFontaine.addDoor("est",vTrapDoorFontaine);
+        vCouloir.addDoor("ouest",vTrapDoorCouloir);
+        
+        // ## Création des PNJ ##
+        PNJ vJedi = new PNJ ("Jedi", vKyber , vConseil);
+        PNJ vGarde = new PNJ ("Garde" , vCellule , vOutside);
+        vConseil.addPNJ("Jedi", vJedi);
+        vOutside.addPNJ("Garde", vGarde);
 
         // ## demande du nom au début du jeu
         String vPrenom = javax.swing.JOptionPane.showInputDialog( "Padawan, quel est ton prenom ?" );
@@ -161,6 +166,7 @@ public class GameEngine {
         else if (vCommandWord.equals("take")) aPlayer.take(vCommand);
         else if (vCommandWord.equals("inventaire")) this.aGui.println(this.aPlayer.getInventaire().inventory());
         else if (vCommandWord.equals("construire")) this.construire();
+        else if (vCommandWord.equals("parler")) this.aPlayer.parler(vCommand);
 
     }
 
@@ -197,7 +203,7 @@ public class GameEngine {
                 }
                 else if (vDoor.isLocked()){
                     HashMap vHMobj = this.aPlayer.getInventaire().getItemListHM();//hash map des objets de l'inventaire pour aller plus vite
-                    if (vHMobj.containsKey("Verre") && vHMobj.containsKey("Crystal") && vHMobj.containsKey("Cellule") && vHMobj.containsKey("Emetteur") && vHMobj.containsKey("Lentille")){
+                    if (vHMobj.containsKey("Crystal") && vHMobj.containsKey("Cellule") && vHMobj.containsKey("Emetteur") && vHMobj.containsKey("Lentille")){
                         vDoor.setLocked(false);
                         this.aGui.println("Vous avez trouvé l'armurerie secrète");
                     }
@@ -210,13 +216,7 @@ public class GameEngine {
 
                 
             this.aPlayer.changeRoom(vNextRoom);
-            if (this.aTimer == 0){
-                this.aGui.println("Vous vous etes trop déplacés, vous avez perdu");
-                join_the_force();
-            } else {
-                this.aTimer -= 1;
-                this.aGui.println("Nombre de coups réstant : " + this.aTimer);
-            }
+            
 
         }
         if (this.aAudio.isFinished()){
@@ -266,11 +266,13 @@ public class GameEngine {
             aGui.println("Vous ne pouvez pas construire ici !");
             return;
         }
-        if (!this.aPlayer.getStackRoom().pop().getDoor("est").isLocked() && this.aPlayer.getCurrentRoom().getDescription().equals("dans l'armurerie secrète du temple")){
-            aGui.println("Bravo, vous avez construi votre sabre lasert et finit le jeu !");
+        if (this.aPlayer.getCurrentRoom().getDescription().equals("dans l'armurerie secrète du temple")){
+            this.aGui.println("Bravo, vous avez construit votre sabre lasert et finit le jeu !");
             this.join_the_force();            
         }
     }
+    
+    
 
     // ## Méthodes d'affichage ##
     /**

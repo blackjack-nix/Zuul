@@ -15,6 +15,7 @@ public class Room
     private HashMap <String , Room>  aSortieHM;
     private HashMap <String , Item> aItemHM;
     private HashMap<String , Door> aDoorHM;
+    private HashMap<String , PNJ> aPNJHM;
     private String aDescription;
     private String aImageName;
 
@@ -29,6 +30,7 @@ public class Room
         this.aDoorHM = new HashMap<String,Door>();
         this.aSortieHM = new HashMap <String , Room> ();
         this.aItemHM = new HashMap <String, Item>();
+        this.aPNJHM = new HashMap <String, PNJ>();
         this.aImageName = pImage;
     }//Room(.)
 
@@ -75,6 +77,10 @@ public class Room
         return this.aItemHM.get(this);
     }
 
+    public PNJ getPNJ(final String pDescription){
+        return this.aPNJHM.get(pDescription);
+    }
+    
     /**
      * Return the exit of the room
      * @return Return the room after taking the direction
@@ -106,6 +112,12 @@ public class Room
         return vReturnString.toString();
     }
 
+    public String getPNJString(){
+        StringBuilder vReturnString = new StringBuilder("");
+        for (String vS : aPNJHM.keySet() ) vReturnString.append( " " + vS);
+        return vReturnString.toString();        
+    }
+    
     /**
      * Renvoie une description détillée de cette piece sous la forme :
      *      vous etes dans + piece
@@ -113,7 +125,11 @@ public class Room
      * @return Une description de la piece avec les sorties
      */
     public String getLongDescription(){
-        return "\n"+"Vous etes "+this.aDescription+". Sorties : "+this.getExitString() + "\n" + "Objet disponible dans cette salle : " + this.getItemString();
+        String vS = "\n Vous etes "+this.aDescription + "\n";
+        vS += "Sorties disponibles : " + this.getExitString() + "\n";
+        vS += "Objet disponible dans cette salle : " + this.getItemString() + "\n";
+        vS += "Personnes présentes : " + this.getPNJString() + "\n";
+        return  vS;
     }
 
     /**
@@ -180,4 +196,7 @@ public class Room
         this.aItemHM.remove(pDescription);
     }
 
+    public void addPNJ (final String pNom , final PNJ pPNJ){
+        this.aPNJHM.put(pNom,pPNJ);
+    }
 } // Room

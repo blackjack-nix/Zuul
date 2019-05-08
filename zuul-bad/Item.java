@@ -13,7 +13,7 @@ public class Item
     // ## Attributs ##
     private String aNom;
     private int aPoids;
-    private HashMap<Room, Item> aItemHM;
+   
     
     // ## Constructeur ##
     
@@ -29,10 +29,6 @@ public class Item
     
     
     // ## Acesseurs ##
-    
-    public Item getObjet (final String pObjetDescription){
-        return this.aItemHM.get(pObjetDescription);
-    }//getObjet(.)
     
     /**
      * renvoie le nom de l'objet
@@ -52,21 +48,4 @@ public class Item
     }//accesseur poids
     
     
-    // ## Modificateur ##
-    
-    /**
-     * Ajoute un item dans la piece passé en parametre
-     * @param Room la room dans laquelle on veut placer l'objet
-     */
-    public void addItem ( final Room pRoom ){
-        aItemHM.put(pRoom, this);
-    }//addItem()
-    
-    /**
-     * Permet de supprimer un objet de la piece
-     * @param String de la description de l'objet
-     */
-    public void removeItem (final String pDescrition){
-        this.aItemHM.remove(pDescrition);
-    }//removeItem(.)
 }
