@@ -1,25 +1,30 @@
-take Cellule
+go nord
+back
+parler Garde
 go nord
 go ouest
-drop Cellule
-take MagicCookie
+take magicCookie
 eat MagicCookie
 take Verre
-take Cellule
+drop Verre
+take Verre
 go nord
 take Lentille
-back
-back
-go nord
 take Emetteur
 go bas
+parler Jedi
 take Crystal
-back
-back
+go up
+go sud
+go sud
+parler Garde
+take Cellule
+help
+look
+inventaire
+go nord
 go est
 go nord
-drop Cellule
-drop Verre
-drop Emetteur
-drop Crystal
-drop Lentille
+go est
+construire
+join_the_force

@@ -1,21 +1,23 @@
 go nord
 go ouest
+take MagicCookie
+eat MagicCookie
+take Verre
 go nord
-go sud
+take Lentille
 go est
-go est
-go nord
-back
-back
-back
-back
-back
-back
-back
-back
-go nord
+take Emetteur
 go bas
-look
-eat
-help
-join_the_force
+parler Jedi
+take Crystal
+go up
+go sud
+go sud
+parler Garde
+take Cellule
+go nord
+go est
+go nord
+go est
+construire
+

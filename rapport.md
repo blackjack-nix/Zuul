@@ -10,7 +10,7 @@ Dans un **temple Jedi**, toi, un jeune Padwan, dois achever sa formation en cré
 Au **temple Jedi** de Coruscant, tu devras, pour finir ta formation Jedi, construire ton propre sabre lasert, arme légendaire des Jedi et craint à travers toute la galaxie. Pour cela, tu devras recupérer les pièces manquantes en parcourant le temple à la recherche de ces pièces nécessaires à sa création.
 
 ## 1.D) Plan
-![Plan du jeu](/home/theo/Documents/IPO/Zuul/Carte.png)
+![Plan du jeu](zuul-bad/map.jpg)
 
 ## 1.E) Scénario détaillé
 Un jeune Jedi doit passer par une phase d'apprentissage. Il devient alors un Padawan. Afin de terminer sa formation, il doit rassembler 5 objets et construire son sabre lasert dans l'armurerie du temple. Pour récupéré ces 5 objets, il devra parcourir seul le temple Jedi et se rendre dans les bonnes pièces.
