@@ -15,6 +15,7 @@ import java.io.*;
  */
 public class UserInterface implements ActionListener
 {
+    // ## Attributs ##
     private GameEngine aEngine;
     private JFrame     aMyFrame;
     private JTextField aEntryField;
@@ -32,6 +33,7 @@ public class UserInterface implements ActionListener
     private JButton    aButtonInventory;
     
     
+    // ## Constructor ##
     
     /**
      * Construct a UserInterface. As a parameter, a Game Engine
@@ -43,54 +45,12 @@ public class UserInterface implements ActionListener
     public UserInterface( final GameEngine pGameEngine )
     {
         this.aEngine = pGameEngine;
-        
-        
         this.createGUI();
     } // UserInterface(.)
-
-    /**
-     * Print out some text into the text area.
-     * @param String what to print
-     */
-    public void print( final String pText )
-    {
-        this.aLog.append( pText );
-        this.aLog.setCaretPosition( this.aLog.getDocument().getLength() );
-    } // print(.)
-
-    /**
-     * Print out some text into the text area, followed by a line break.
-     */
-    public void println( final String pText )
-    {
-        this.print( pText + "\n" );
-    } // println(.)
-
-    /**
-     * Show an image file in the interface.
-     */
-    public void showImage( final String pImageName )
-    {
-        URL vImageURL = this.getClass().getClassLoader().getResource( pImageName );
-        if ( vImageURL == null )
-            System.out.println( "image not found" );
-        else {
-            ImageIcon vIcon = new ImageIcon( vImageURL );
-            this.aImage.setIcon( vIcon );
-            this.aMyFrame.pack();
-        }
-    } // showImage(.)
-
-    /**
-     * Enable or disable input in the input field.
-     */
-    public void enable( final boolean pOnOff )
-    {
-        this.aEntryField.setEditable( pOnOff );
-        if ( ! pOnOff )
-            this.aEntryField.getCaret().setBlinkRate( 0 );
-    } // enable(.)
-
+    
+   
+    // ## Méthodes d'initialisation ##
+    
     /**
      * Set up graphical user interface.
      */
@@ -181,13 +141,14 @@ public class UserInterface implements ActionListener
         this.aEntryField.requestFocus();
     } // createGUI()
 
+    
+    // ## Méthodes importantes ##
+    
     /**
      * Actionlistener interface for entry textfield.
      */
     public void actionPerformed( final ActionEvent pE ) 
     {
-        // no need to check the type of action at the moment.
-        // there is only one possible action: text entry
         Object vSource = pE.getSource();
         if (vSource == aEntryField){
             this.processCommand();
@@ -218,6 +179,7 @@ public class UserInterface implements ActionListener
             aEngine.interpretCommand("inventaire");
         }
     }
+    
     /**
      * A command has been entered. Read the command and do whatever is 
      * necessary to process it.
@@ -228,4 +190,50 @@ public class UserInterface implements ActionListener
         this.aEntryField.setText( "" );
         this.aEngine.interpretCommand( vInput );
     } // processCommand()
+    
+    
+    // ## Méthodes d'affichage ##
+    
+    /**
+     * Print out some text into the text area.
+     * @param String what to print
+     */
+    public void print( final String pText )
+    {
+        this.aLog.append( pText );
+        this.aLog.setCaretPosition( this.aLog.getDocument().getLength() );
+    } // print(.)
+
+    /**
+     * Print out some text into the text area, followed by a line break.
+     */
+    public void println( final String pText )
+    {
+        this.print( pText + "\n" );
+    } // println(.)
+
+    /**
+     * Show an image file in the interface.
+     */
+    public void showImage( final String pImageName )
+    {
+        URL vImageURL = this.getClass().getClassLoader().getResource( pImageName );
+        if ( vImageURL == null )
+            System.out.println( "image not found" );
+        else {
+            ImageIcon vIcon = new ImageIcon( vImageURL );
+            this.aImage.setIcon( vIcon );
+            this.aMyFrame.pack();
+        }
+    } // showImage(.)
+
+    /**
+     * Enable or disable input in the input field.
+     */
+    public void enable( final boolean pOnOff )
+    {
+        this.aEntryField.setEditable( pOnOff );
+        if ( ! pOnOff )
+            this.aEntryField.getCaret().setBlinkRate( 0 );
+    } // enable(.)
 } // UserInterface 
