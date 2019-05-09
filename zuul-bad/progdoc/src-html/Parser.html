@@ -1,85 +1,87 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="en">
+<html lang="fr">
 <head>
 <title>Source code</title>
 <link rel="stylesheet" type="text/css" href="../stylesheet.css" title="Style">
 </head>
 <body>
 <div class="sourceContainer">
-<pre><span class="sourceLineNo">001</span> <a name="line.1"></a>
-<span class="sourceLineNo">002</span>import java.util.Scanner;<a name="line.2"></a>
-<span class="sourceLineNo">003</span><a name="line.3"></a>
-<span class="sourceLineNo">004</span>/**<a name="line.4"></a>
-<span class="sourceLineNo">005</span> * This class is part of the "World of Zuul" application. <a name="line.5"></a>
-<span class="sourceLineNo">006</span> * "World of Zuul" is a very simple, text based adventure game.  <a name="line.6"></a>
-<span class="sourceLineNo">007</span> * <a name="line.7"></a>
-<span class="sourceLineNo">008</span> * This parser reads user input and tries to interpret it as an "Adventure"<a name="line.8"></a>
-<span class="sourceLineNo">009</span> * command. Every time it is called it reads a line from the terminal and<a name="line.9"></a>
-<span class="sourceLineNo">010</span> * tries to interpret the line as a two word command. It returns the command<a name="line.10"></a>
-<span class="sourceLineNo">011</span> * as an object of class Command.<a name="line.11"></a>
-<span class="sourceLineNo">012</span> *<a name="line.12"></a>
-<span class="sourceLineNo">013</span> * The parser has a set of known command words. It checks user input against<a name="line.13"></a>
-<span class="sourceLineNo">014</span> * the known commands, and if the input is not one of the known commands, it<a name="line.14"></a>
-<span class="sourceLineNo">015</span> * returns a command object that is marked as an unknown command.<a name="line.15"></a>
-<span class="sourceLineNo">016</span> * <a name="line.16"></a>
-<span class="sourceLineNo">017</span> * @author  Michael Kolling and David J. Barnes + D.Bureau<a name="line.17"></a>
-<span class="sourceLineNo">018</span> * @version 2008.03.30 + 2013.09.15<a name="line.18"></a>
-<span class="sourceLineNo">019</span> */<a name="line.19"></a>
+<pre><span class="sourceLineNo">001</span>import java.util.StringTokenizer;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span>/**<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * This class is part of "World of Zuul". "World of Zuul" is a simple, <a name="line.4"></a>
+<span class="sourceLineNo">005</span> * text based adventure game.<a name="line.5"></a>
+<span class="sourceLineNo">006</span> *<a name="line.6"></a>
+<span class="sourceLineNo">007</span> * This parser takes user input and tries to interpret it as a "Zuul"<a name="line.7"></a>
+<span class="sourceLineNo">008</span> * command. Every time it is called it takes a line as a String and<a name="line.8"></a>
+<span class="sourceLineNo">009</span> * tries to interpret the line as a two word command. It returns the command<a name="line.9"></a>
+<span class="sourceLineNo">010</span> * as an object of class Command.<a name="line.10"></a>
+<span class="sourceLineNo">011</span> *<a name="line.11"></a>
+<span class="sourceLineNo">012</span> * The parser has a set of known command words. It checks user input against<a name="line.12"></a>
+<span class="sourceLineNo">013</span> * the known commands, and if the input is not one of the known commands, it<a name="line.13"></a>
+<span class="sourceLineNo">014</span> * returns a command object that is marked as an unknown command.<a name="line.14"></a>
+<span class="sourceLineNo">015</span> * <a name="line.15"></a>
+<span class="sourceLineNo">016</span> * @author  Michael Kolling and David J. Barnes (DB edited)<a name="line.16"></a>
+<span class="sourceLineNo">017</span> * @version 2.0 (Jan 2003)<a name="line.17"></a>
+<span class="sourceLineNo">018</span> */<a name="line.18"></a>
+<span class="sourceLineNo">019</span><a name="line.19"></a>
 <span class="sourceLineNo">020</span>public class Parser <a name="line.20"></a>
 <span class="sourceLineNo">021</span>{<a name="line.21"></a>
-<span class="sourceLineNo">022</span>    private CommandWords aValidCommands;  // (voir la classe CommandWords)<a name="line.22"></a>
-<span class="sourceLineNo">023</span>    private Scanner      aReader;         // permettra de lire les commandes au clavier<a name="line.23"></a>
+<span class="sourceLineNo">022</span><a name="line.22"></a>
+<span class="sourceLineNo">023</span>    private CommandWords aCommandWords;  // holds all valid command words<a name="line.23"></a>
 <span class="sourceLineNo">024</span><a name="line.24"></a>
 <span class="sourceLineNo">025</span>    /**<a name="line.25"></a>
-<span class="sourceLineNo">026</span>     * Constructeur par defaut qui cree les 2 objets prevus pour les attributs<a name="line.26"></a>
+<span class="sourceLineNo">026</span>     * Create a new Parser.<a name="line.26"></a>
 <span class="sourceLineNo">027</span>     */<a name="line.27"></a>
 <span class="sourceLineNo">028</span>    public Parser() <a name="line.28"></a>
 <span class="sourceLineNo">029</span>    {<a name="line.29"></a>
-<span class="sourceLineNo">030</span>        this.aValidCommands = new CommandWords();<a name="line.30"></a>
-<span class="sourceLineNo">031</span>        this.aReader        = new Scanner( System.in );<a name="line.31"></a>
-<span class="sourceLineNo">032</span>        // System.in designe le clavier, comme System.out designe l'ecran<a name="line.32"></a>
-<span class="sourceLineNo">033</span>    } // Parser()<a name="line.33"></a>
-<span class="sourceLineNo">034</span><a name="line.34"></a>
-<span class="sourceLineNo">035</span>    /**<a name="line.35"></a>
-<span class="sourceLineNo">036</span>     * @return The next command from the user.<a name="line.36"></a>
-<span class="sourceLineNo">037</span>     */<a name="line.37"></a>
-<span class="sourceLineNo">038</span>    public Command getCommand() <a name="line.38"></a>
-<span class="sourceLineNo">039</span>    { <a name="line.39"></a>
-<span class="sourceLineNo">040</span>        String vInputLine;    // contiendra toute la ligne tapee<a name="line.40"></a>
-<span class="sourceLineNo">041</span>        String vWord1 = null;<a name="line.41"></a>
-<span class="sourceLineNo">042</span>        String vWord2 = null;<a name="line.42"></a>
+<span class="sourceLineNo">030</span>        this.aCommandWords = new CommandWords();<a name="line.30"></a>
+<span class="sourceLineNo">031</span>    } // Parser()<a name="line.31"></a>
+<span class="sourceLineNo">032</span><a name="line.32"></a>
+<span class="sourceLineNo">033</span>    /**<a name="line.33"></a>
+<span class="sourceLineNo">034</span>     * Get a new command from the user. The command is read by<a name="line.34"></a>
+<span class="sourceLineNo">035</span>     * parsing the 'inputLine'.<a name="line.35"></a>
+<span class="sourceLineNo">036</span>     * @param pInputLine<a name="line.36"></a>
+<span class="sourceLineNo">037</span>     * @return Command<a name="line.37"></a>
+<span class="sourceLineNo">038</span>     */<a name="line.38"></a>
+<span class="sourceLineNo">039</span>    public Command getCommand( final String pInputLine ) <a name="line.39"></a>
+<span class="sourceLineNo">040</span>    {<a name="line.40"></a>
+<span class="sourceLineNo">041</span>        String vWord1;<a name="line.41"></a>
+<span class="sourceLineNo">042</span>        String vWord2;<a name="line.42"></a>
 <span class="sourceLineNo">043</span><a name="line.43"></a>
-<span class="sourceLineNo">044</span>        System.out.print( "&gt; " );  // affiche le prompt (invite de commande)<a name="line.44"></a>
+<span class="sourceLineNo">044</span>        StringTokenizer tokenizer = new StringTokenizer( pInputLine );<a name="line.44"></a>
 <span class="sourceLineNo">045</span><a name="line.45"></a>
-<span class="sourceLineNo">046</span>        vInputLine = this.aReader.nextLine(); // lit la ligne tapee au clavier<a name="line.46"></a>
-<span class="sourceLineNo">047</span><a name="line.47"></a>
-<span class="sourceLineNo">048</span>        // cherche jusqu'a 2 mots dans la ligne tapee<a name="line.48"></a>
-<span class="sourceLineNo">049</span>        Scanner vTokenizer = new Scanner( vInputLine );<a name="line.49"></a>
-<span class="sourceLineNo">050</span>        if ( vTokenizer.hasNext() ) {<a name="line.50"></a>
-<span class="sourceLineNo">051</span>            vWord1 = vTokenizer.next();      // recupere le premier mot<a name="line.51"></a>
-<span class="sourceLineNo">052</span>            if ( vTokenizer.hasNext() ) {<a name="line.52"></a>
-<span class="sourceLineNo">053</span>                vWord2 = vTokenizer.next();  // recupere le deuxieme mot<a name="line.53"></a>
-<span class="sourceLineNo">054</span>                // note : on ignore tout le reste de la ligne tapee !<a name="line.54"></a>
-<span class="sourceLineNo">055</span>            } // if<a name="line.55"></a>
-<span class="sourceLineNo">056</span>        } // if<a name="line.56"></a>
+<span class="sourceLineNo">046</span>        if ( tokenizer.hasMoreTokens() )<a name="line.46"></a>
+<span class="sourceLineNo">047</span>            vWord1 = tokenizer.nextToken();      // get first word<a name="line.47"></a>
+<span class="sourceLineNo">048</span>        else<a name="line.48"></a>
+<span class="sourceLineNo">049</span>            vWord1 = null;<a name="line.49"></a>
+<span class="sourceLineNo">050</span><a name="line.50"></a>
+<span class="sourceLineNo">051</span>        if ( tokenizer.hasMoreTokens() )<a name="line.51"></a>
+<span class="sourceLineNo">052</span>            vWord2 = tokenizer.nextToken();      // get second word<a name="line.52"></a>
+<span class="sourceLineNo">053</span>        else<a name="line.53"></a>
+<span class="sourceLineNo">054</span>            vWord2 = null;<a name="line.54"></a>
+<span class="sourceLineNo">055</span><a name="line.55"></a>
+<span class="sourceLineNo">056</span>        // note: we just ignore the rest of the input line.<a name="line.56"></a>
 <span class="sourceLineNo">057</span><a name="line.57"></a>
-<span class="sourceLineNo">058</span>        // Veifie si le premier mot est une commande connue. Si oui, cree une Command avec.<a name="line.58"></a>
-<span class="sourceLineNo">059</span>        // Sinon, cree une commande vide avec "null" (pour dire 'commande inconnue').<a name="line.59"></a>
-<span class="sourceLineNo">060</span>        if ( this.aValidCommands.isCommand( vWord1 ) ) {<a name="line.60"></a>
-<span class="sourceLineNo">061</span>            return new Command( vWord1, vWord2 );<a name="line.61"></a>
-<span class="sourceLineNo">062</span>        }<a name="line.62"></a>
-<span class="sourceLineNo">063</span>        else {<a name="line.63"></a>
-<span class="sourceLineNo">064</span>            return new Command( null, null ); <a name="line.64"></a>
-<span class="sourceLineNo">065</span>        }<a name="line.65"></a>
-<span class="sourceLineNo">066</span>    } // getCommand()<a name="line.66"></a>
-<span class="sourceLineNo">067</span>    <a name="line.67"></a>
-<span class="sourceLineNo">068</span>    /** <a name="line.68"></a>
-<span class="sourceLineNo">069</span>     * affiche une liste de commandes valides<a name="line.69"></a>
+<span class="sourceLineNo">058</span>        // Now check whether this word is known. If so, create a command<a name="line.58"></a>
+<span class="sourceLineNo">059</span>        // with it. If not, create a "null" command (for unknown command).<a name="line.59"></a>
+<span class="sourceLineNo">060</span><a name="line.60"></a>
+<span class="sourceLineNo">061</span>        if ( this.aCommandWords.isCommand( vWord1 ) )<a name="line.61"></a>
+<span class="sourceLineNo">062</span>            return new Command( vWord1, vWord2 );<a name="line.62"></a>
+<span class="sourceLineNo">063</span>        else<a name="line.63"></a>
+<span class="sourceLineNo">064</span>            return new Command( null, vWord2 );<a name="line.64"></a>
+<span class="sourceLineNo">065</span>    } // getCommand(.)<a name="line.65"></a>
+<span class="sourceLineNo">066</span><a name="line.66"></a>
+<span class="sourceLineNo">067</span>    /**<a name="line.67"></a>
+<span class="sourceLineNo">068</span>     * Returns a String with valid command words.<a name="line.68"></a>
+<span class="sourceLineNo">069</span>     * @return String<a name="line.69"></a>
 <span class="sourceLineNo">070</span>     */<a name="line.70"></a>
-<span class="sourceLineNo">071</span>    public void showCommands(){<a name="line.71"></a>
-<span class="sourceLineNo">072</span>        aValidCommands.getCommandList();<a name="line.72"></a>
-<span class="sourceLineNo">073</span>    }<a name="line.73"></a>
-<span class="sourceLineNo">074</span>} // Parser<a name="line.74"></a>
+<span class="sourceLineNo">071</span>    public String showCommands() // bad name for this method !<a name="line.71"></a>
+<span class="sourceLineNo">072</span>    {<a name="line.72"></a>
+<span class="sourceLineNo">073</span>        return this.aCommandWords.getCommandList();<a name="line.73"></a>
+<span class="sourceLineNo">074</span>    } // showCommands() // bad name for this method !<a name="line.74"></a>
+<span class="sourceLineNo">075</span><a name="line.75"></a>
+<span class="sourceLineNo">076</span>} // Parser<a name="line.76"></a>
 
 
 

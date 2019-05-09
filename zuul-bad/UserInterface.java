@@ -40,7 +40,7 @@ public class UserInterface implements ActionListener
      * (an object processing and executing the game commands) is
      * needed.
      * 
-     * @param gameEngine  The GameEngine object implementing the game logic.
+     * @param pGameEngine  The GameEngine object implementing the game logic.
      */
     public UserInterface( final GameEngine pGameEngine )
     {
@@ -146,6 +146,7 @@ public class UserInterface implements ActionListener
     
     /**
      * Actionlistener interface for entry textfield.
+     * @param pE 
      */
     public void actionPerformed( final ActionEvent pE ) 
     {
@@ -196,7 +197,7 @@ public class UserInterface implements ActionListener
     
     /**
      * Print out some text into the text area.
-     * @param String what to print
+     * @param pText what to print
      */
     public void print( final String pText )
     {
@@ -206,6 +207,7 @@ public class UserInterface implements ActionListener
 
     /**
      * Print out some text into the text area, followed by a line break.
+     * @param pText
      */
     public void println( final String pText )
     {
@@ -214,6 +216,7 @@ public class UserInterface implements ActionListener
 
     /**
      * Show an image file in the interface.
+     * @param pImageName
      */
     public void showImage( final String pImageName )
     {
@@ -229,6 +232,7 @@ public class UserInterface implements ActionListener
 
     /**
      * Enable or disable input in the input field.
+     * @param pOnOff
      */
     public void enable( final boolean pOnOff )
     {

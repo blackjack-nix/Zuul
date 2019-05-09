@@ -1,7 +1,7 @@
 import java.util.HashMap;
 /**
  * Class for the PNJ of the project Zuul-Wars
- * @autor Théo Péresse
+ * @author Théo Péresse
  * @version finale
  * Available on GitHub
  */ 

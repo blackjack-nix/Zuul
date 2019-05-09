@@ -45,6 +45,7 @@ public class CommandWords
     
     /**
      * Affiche toutes les commandes sur System.out
+     * @return String
      */
     public String getCommandList(){
         String vCommands = "";

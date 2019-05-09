@@ -3,7 +3,7 @@ import java.util.HashMap;
 
 /**
  * Class for the Items of the project Zuul-Wars
- * @autor Théo Péresse
+ * @author Théo Péresse
  * @version finale
  * Available on GitHub
  */ 
@@ -19,8 +19,8 @@ public class Item
     
     /**
      * Constructeur d'item
-     * @param String nom de l'objet
-     * @param int Poind de l'objet
+     * @param pNom nom de l'objet
+     * @param pPoids Poind de l'objet
      */
     public Item (final String pNom ,  final int pPoids){
         this.aPoids = pPoids;     
@@ -40,7 +40,6 @@ public class Item
     
     /**
      * renvoie le poid de l'objet passé en parametre
-     * @param Item Item dont on veut connaitre le poid
      * @return int le poid de l'objet passé en parametre
      */
     public int getPoids (){

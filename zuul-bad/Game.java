@@ -1,6 +1,6 @@
 /**
  * Class for the Game of the project Zuul-Wars
- * @autor Théo Péresse
+ * @author Théo Péresse
  * @version finale
  * Available on GitHub
  */

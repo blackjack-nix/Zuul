@@ -3,7 +3,7 @@ import java.util.Stack;
 
 /**
  * Class for the Player of the project Zuul-Wars
- * @autor Théo Péresse
+ * @author Théo Péresse
  * @version finale
  * Available on GitHub
  */
@@ -23,8 +23,8 @@ public class Player
     // ## Constructeur(s)
     /**
      * constructeur de Player
-     * @param String nom du joueur
-     * @param Room room de départ
+     * @param pNom nom du joueur
+     * @param pCurrentRoom room de départ
      */
 
     public Player (final String pNom , final Room pCurrentRoom ){
@@ -40,7 +40,7 @@ public class Player
     // ## Initialisation ##
     /**
      * Constructeur de gui
-     * @param UserInterface pGui
+     * @param pUserInterface pGui
      */
     public void setGui(final UserInterface pUserInterface)
     {
@@ -92,7 +92,7 @@ public class Player
     // Méthodes principales ##
     /**
      * Change de room
-     * @param Room la room ou aller
+     * @param pRoom la room ou aller
      */
 
     public void changeRoom(final Room pRoom)

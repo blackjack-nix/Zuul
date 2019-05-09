@@ -4,7 +4,7 @@ import java.io.InputStream;
 
 /**
  * Class for the GameEngine of the project Zuul-Wars
- * @autor Théo Péresse
+ * @author Théo Péresse
  * @version finale
  * Available on GitHub
  */
@@ -123,7 +123,7 @@ public class GameEngine {
 
     /**
      * création de l'interface graphique
-     * @param UserInterface 
+     * @param pUserInterface 
      */
     public void setGUI(UserInterface pUserInterface){
         this.aGui = pUserInterface;
@@ -134,7 +134,7 @@ public class GameEngine {
     // ## Methodes principales ##
     /**
      * permet d'interpreter les commandes passées en parametres
-     * @param String qui est la commande
+     * @param pCommandLine qui est la commande
      */
     public void interpretCommand(String pCommandLine){
         aGui.println(pCommandLine);
@@ -172,7 +172,7 @@ public class GameEngine {
 
     /**
      * Permet de changer de room 
-     * @ param Commande
+     * @param pCommand
      */
     private void goRoom ( final Command pCommand){
 
@@ -238,7 +238,7 @@ public class GameEngine {
 
     /** 
      * permet de lire les intructions tappées dans un fichier texte
-     * @param String le chemin du fichier
+     * @param pFichier le chemin du fichier
      */
     private void test (final String pFichier){
         Scanner vSc;

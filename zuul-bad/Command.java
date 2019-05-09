@@ -1,6 +1,6 @@
 /**
  * Class for the command of the project Zuul-Wars
- * @autor Théo Péresse
+ * @author Théo Péresse
  * @version finale
  * Available on GitHub
  */
@@ -13,7 +13,8 @@ public class Command
     // ## Constructor ##
     /**
      * Natural constructor for command
-     * @param pCommandWord && String pSecondWord
+     * @param pCommandWord 
+     * @param pSecondWord
      */
     
     public Command (final String pCommandWord , final String pSecondWord){

@@ -1,7 +1,7 @@
 import javax.sound.sampled.*;
 /**
  * Class for the Sound of the project Zuul-Wars
- * @autor Théo Péresse && Quentin Martins
+ * @author Théo Péresse et Quentin Martins
  * @version finale
  * Available on GitHub
  */ 
@@ -13,7 +13,7 @@ public class Audio {
     
     /**
      * Contructeur de l'audio
-     * @param String le chemin vers l'audio. ! ne prend que les .wav
+     * @param pSon le chemin vers l'audio. ! ne prend que les .wav
      */
     public Audio (final String pSon){
         try {

@@ -1,6 +1,6 @@
 /**
  * Class for the Room of the project Zuul-Wars
- * @autor Théo Péresse
+ * @author Théo Péresse
  * @version finale
  * Available on GitHub
  */    
@@ -77,6 +77,10 @@ public class Room
         return this.aItemHM.get(this);
     }
 
+    /**
+     * @param pDescription
+     * @return PNJ
+     */
     public PNJ getPNJ(final String pDescription){
         return this.aPNJHM.get(pDescription);
     }
@@ -112,6 +116,9 @@ public class Room
         return vReturnString.toString();
     }
 
+    /**
+     * @return String
+     */
     public String getPNJString(){
         StringBuilder vReturnString = new StringBuilder("");
         for (String vS : aPNJHM.keySet() ) vReturnString.append( " " + vS);
@@ -181,8 +188,8 @@ public class Room
 
     /**
      * Permet d'ajouter un objet a la room
-     * @param String description de l'objet
-     * @param Item item à ajouter
+     * @param pDescription description de l'objet
+     * @param pItem item à ajouter
      */
     public void addItem (final String pDescription , final Item pItem){
         this.aItemHM.put(pDescription , pItem);  
@@ -196,6 +203,10 @@ public class Room
         this.aItemHM.remove(pDescription);
     }
 
+    /**
+     * @param pNom
+     * @param pPNJ
+     */
     public void addPNJ (final String pNom , final PNJ pPNJ){
         this.aPNJHM.put(pNom,pPNJ);
     }

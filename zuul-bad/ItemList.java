@@ -4,7 +4,7 @@ import java.util.Set;
 
 /**
  * Class for the Inventory of the project Zuul-Wars
- * @autor Théo Péresse
+ * @author Théo Péresse
  * @version finale
  * Available on GitHub
  */ 
@@ -37,7 +37,7 @@ public class ItemList
 
     /**
      * Renvoie la HashMap complete des items de l'inventaire
-     * @retrun HashMap de l'inventaire
+     * @return HashMap de l'inventaire
      */
     public HashMap getItemListHM (){
         return this.aItemListHM;
