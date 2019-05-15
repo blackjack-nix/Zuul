@@ -7,7 +7,7 @@ all he/she needs to know. The comments should usually include at least:
 
 PROJECT TITLE: Zuul-Wars
 PURPOSE OF PROJECT:
-VERSION or DATE:v2 18/04/2019
+VERSION or DATE:vf 08/05/2019
 HOW TO START THIS PROJECT: create a new game objetc and follow instructions
 AUTHORS: Théo Péresse-Gourbil
 USER INSTRUCTIONS: enjoy
